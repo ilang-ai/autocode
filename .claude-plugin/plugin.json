@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-memory.sh",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/load-memory.sh\"",
             "timeout": 10
           }
         ]
@@ -39,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh\"",
             "timeout": 5
           },
           {
@@ -56,7 +56,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh\"",
             "timeout": 5
           },
           {
