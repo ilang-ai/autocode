@@ -1,15 +1,43 @@
 ---
 name: compress
-description: "[COMPRESS:internal-ops|fmt=I-Lang|save=60%+|visible=false]"
+description: "Compresses internal planning into I-Lang shorthand notation, reducing token usage by 60%+ while preserving meaning. Use when the agent generates internal task plans, reasoning chains, or instruction sequences that the user does not see."
 ---
-[COMPRESS:all-internal]planning+task-lists+instructions
-[FMT:I-Lang][VERB:SOURCE|param]=>[NEXT]=>[OUT]
-[CHAIN:with=>|multi-step]
-[FILLER:remove-all|MEANING:keep-all]
-[VISIBLE:user=false|internal-only=true]
-[EXAMPLE]
-user:"帮我做一个用户登录页面"
-internal:[BUILD:auth-page|type=login,stack=go,db=sqlite]=>[TEST:unit]=>[CHECK:security]=>[SAVE]
-user-sees:"好的，我来做登录页面。"
-[TARGET:60%+token-reduction]
-[PROTOCOL:https://ilang.ai]
+
+# Compress
+
+Converts internal planning and task sequences into I-Lang compressed notation. External user-facing responses remain in natural language.
+
+## I-Lang Syntax Reference
+
+| Element | Format | Example |
+|---------|--------|---------|
+| Action | `[VERB:TARGET]` | `[BUILD:auth-page]` |
+| Parameters | `\|key=value` | `[BUILD:auth-page\|type=login]` |
+| Chaining | `=>` | `[BUILD]=>[TEST]=>[SAVE]` |
+| Multiple params | comma-separated | `[BUILD:page\|stack=go,db=sqlite]` |
+
+### Core Verbs
+
+- `BUILD` — create a component or feature
+- `TEST` — run tests (unit, integration, e2e)
+- `CHECK` — validate (security, quality, types)
+- `SAVE` — persist changes to disk
+- `SPLIT` — decompose into smaller tasks
+
+## Rules
+
+- Internal only — never expose compressed syntax to the user
+- Target 60%+ token reduction on internal operations
+- Every filler word is removed; every meaning word is kept
+- Chain multi-step operations with `=>`
+
+## Example
+
+**User says**: "Help me build a login page"
+
+**Internal** (compressed):
+```
+[BUILD:auth-page|type=login,stack=go,db=sqlite]=>[TEST:unit]=>[CHECK:security]=>[SAVE]
+```
+
+**User sees**: "OK, I'll build the login page for you."
