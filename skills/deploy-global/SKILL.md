@@ -18,4 +18,4 @@ version: 5.0.0
 ::ACTIVATE{deploy-global}
   ON:build_complete
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

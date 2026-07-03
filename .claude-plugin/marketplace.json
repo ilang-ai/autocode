@@ -9,8 +9,8 @@
     {
       "name": "autocode",
       "source": "./",
-      "version": "5.0.0",
-      "description": "47 skills. Code to deployment in one session. I-Lang v4.0 powered."
+      "version": "5.1.0",
+      "description": "48 skills. Code to deployment in one session. I-Lang v5.0 judgment + pre-deploy secret scan."
     }
   ]
 }

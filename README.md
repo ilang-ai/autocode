@@ -26,7 +26,7 @@ license: mit
 ### You say it. AutoCode ships it.
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v5.0.0](https://img.shields.io/badge/version-5.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![v5.1.0](https://img.shields.io/badge/version-5.1.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
 [![Skills](https://img.shields.io/badge/Skills-47-blueviolet)](#skills)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
 [![Platforms](https://img.shields.io/badge/Platforms-CC%20%7C%20Codex%20%7C%20Hermes%20%7C%20Cursor%20%7C%20Gemini-blue)](#-install)
@@ -84,7 +84,7 @@ Tell OpenCode:
 Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/autocode/refs/heads/main/.opencode/INSTALL.md
 ```
 
-**Works on Claude Code, Codex, and OpenCode.** Same 47 skills, zero changes.
+**Works on Claude Code, Codex, and OpenCode.** Same 48 skills, zero changes.
 
 ### Hermes Agent
 
@@ -234,7 +234,7 @@ AutoCode:  → Barely asks → Ships it → You realize you have 20 live website
 
 ---
 
-## 🧠 47 Skills
+## 🧠 48 Skills
 
 All automatic. You never activate them.
 
@@ -344,7 +344,7 @@ All automatic. You never activate them.
 
 | Skill | What it does |
 |-------|-------------|
-| Compression | I-Lang v4.0 protocol, structured internal planning |
+| Compression | I-Lang v5.0 protocol, structured internal planning |
 | Memory | Remembers across sessions |
 </details>
 
@@ -352,7 +352,7 @@ All automatic. You never activate them.
 
 ## 🎯 Precision
 
-Powered by [I-Lang v4.0](https://ilang.ai). Structured instructions mean AI gets it right the first time. No rework.
+Powered by [I-Lang v5.0](https://ilang.ai). Structured instructions mean AI gets it right the first time. No rework.
 
 ## 🧠 Memory
 
@@ -371,7 +371,7 @@ Close today → open tomorrow → remembers everything. Gets better every sessio
 | **Deployment** | You figure it out | **Automatic** |
 | **Domain + SSL** | You figure it out | **Guided step by step** |
 | **Memory** | Resets each session | **Persistent** |
-| **Protocol** | None | **I-Lang v4.0** |
+| **Protocol** | None | **I-Lang v5.0** |
 | **Language** | Usually English | **Your language** |
 
 ---
@@ -416,6 +416,6 @@ AutoCode: free forever (MIT). Cloud computer: $6/month (or free with $300 Vultr 
 
 **I-Lang Research · iLang Inc. · Canada · MIT · Free Forever**
 
-*You say it. AutoCode ships it. Powered by [I-Lang v4.0](https://ilang.ai).*
+*You say it. AutoCode ships it. Powered by [I-Lang v5.0](https://ilang.ai).*
 
 </div>

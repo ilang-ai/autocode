@@ -22,4 +22,4 @@ version: 5.0.0
   output: "我用Go + SQLite做，轻量、快、免费。开始搭框架了。"
 }
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

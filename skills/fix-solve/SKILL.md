@@ -8,7 +8,7 @@ version: 5.0.0
 
 
 ::GENE{fix-solve|conf:confirmed|scope:global}
-  -e T:minimal_fix
+  T:minimal_fix
   T:verify_original_symptom_gone
   T:verify_nothing_else_broke
   A:restructure_during_fix⇒minimal_change
@@ -16,4 +16,4 @@ version: 5.0.0
 ::ACTIVATE{fix-solve}
   ON:debugging
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

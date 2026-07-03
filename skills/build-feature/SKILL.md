@@ -24,4 +24,4 @@ version: 5.0.0
   progress: "✅ 3/5 完成，还剩2步。"
 }
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

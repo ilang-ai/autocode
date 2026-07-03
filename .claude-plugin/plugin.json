@@ -1,7 +1,7 @@
 {
   "name": "autocode",
-  "version": "5.0.0",
-  "description": "You say it, AutoCode ships it. 47 skills. Code to deployment in one session. I-Lang v4.0 powered.",
+  "version": "5.1.0",
+  "description": "You say it, AutoCode ships it. 48 skills. Code to deployment in one session, with I-Lang v5.0 judgment: AI decides the small stuff, checks with you on the costly stuff.",
   "author": {
     "name": "I-Lang Research, iLang Inc.",
     "url": "https://github.com/ilang-ai/autocode"
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Apply AutoCode v5.0: 1) Detect user's language, respond in same language always. 2) Detect intent + level. 3) Max 2 yes/no questions, never technical. 4) YOU make ALL decisions, present as 'I'll do X, ok?' 5) I-Lang v4.0 internal planning. 6) Code without deployment = incomplete. 7) If error, translate to human language first.",
+            "prompt": "Apply AutoCode v5.0: 1) Detect the user's language, always reply in it. 2) Detect intent + project size. 3) Decide what only you need to decide; ask the user ONLY when the action is costly, irreversible, or you truly don't know what they want (judge-when-to-ask). Present decisions as 'I'll do X, ok?'. 4) I-Lang v5.0 internal planning + judgment. 5) Before any deploy, run scripts/scan-secrets.sh; if it blocks, fix the leak then ship. 6) Code without deployment = incomplete. 7) Translate errors into plain human language first.",
             "timeout": 10
           }
         ]

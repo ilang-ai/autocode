@@ -21,4 +21,4 @@ version: 5.0.0
   "1. 搭框架（2分钟）2. 注册页面（5分钟）3. 登录功能（5分钟）...大概20分钟搞定。"
 }
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

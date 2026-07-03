@@ -21,4 +21,4 @@ version: 5.0.0
   output: "部署到Cloudflare了，全球访问速度都很快。免费额度每天10万次请求，够用了。"
 }
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai

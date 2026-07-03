@@ -21,4 +21,4 @@ version: 5.0.0
   output: "部署好了。打开 http://你的IP 看看效果。"
 }
 
-Powered by I-Lang v4.0 | ilang.ai
+Powered by I-Lang v5.0 | ilang.ai
