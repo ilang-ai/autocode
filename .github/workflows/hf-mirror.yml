@@ -21,7 +21,7 @@ jobs:
           mkdir -p /tmp/hf-push
           cp README.md LICENSE /tmp/hf-push/
           cp -r skills/ /tmp/hf-push/
-          cp -r plugins/autocode/skills/ /tmp/hf-push/plugins-skills/
+          cp -r skills/ /tmp/hf-push/plugins-skills/
           cp -r data /tmp/hf-push/
 
           # Add HF dataset card metadata before README
