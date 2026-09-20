@@ -32,6 +32,7 @@ license: mit
 [![Platforms](https://img.shields.io/badge/Platforms-CC%20%7C%20Codex%20%7C%20Hermes%20%7C%20Cursor%20%7C%20Gemini-blue)](#-install)
 [![I-Lang Spec](https://img.shields.io/badge/I--Lang-Spec-d4a858)](https://github.com/ilang-ai/ilang-spec)
 [![I-Lang](https://img.shields.io/badge/I--Lang-v5.0-1e3a8a.svg)](https://ilang.ai)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22865145.svg)](https://doi.org/10.5281/zenodo.22865145)
 
 [🇨🇳 中文](docs/README.zh.md) · [🇯🇵 日本語](docs/README.ja.md) · [🇰🇷 한국어](docs/README.ko.md) · [🇪🇸 Español](docs/README.es.md) · [🇧🇷 Português](docs/README.pt.md) · [🇩🇪 Deutsch](docs/README.de.md) · [🇫🇷 Français](docs/README.fr.md) · [🇷🇺 Русский](docs/README.ru.md) · [🇸🇦 العربية](docs/README.ar.md) · [🇮🇳 हिन्दी](docs/README.hi.md)
 
@@ -419,3 +420,9 @@ AutoCode: free forever (MIT). Cloud computer: $6/month (or free with $300 Vultr 
 *You say it. AutoCode ships it. Powered by [I-Lang v5.0](https://ilang.ai).*
 
 </div>
+
+---
+
+## Citation
+
+[CITATION.cff](CITATION.cff); Zenodo archives each release. Concept DOI [10.5281/zenodo.22865145](https://doi.org/10.5281/zenodo.22865145) (all versions).
