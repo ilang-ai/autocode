@@ -1,0 +1,56 @@
+# Push to main with a new version in CITATION.cff and this tags it and publishes
+# the release; the Zenodo webhook on this repository then archives that release
+# and mints its DOI. Nothing runs when the version is unchanged, so an ordinary
+# commit never creates a release.
+#
+# Pre-release lines (tags such as v5.0-pre.x) stay manual: CITATION.cff carries
+# the stable version, and this workflow only ever tags that one.
+
+name: Release on version change
+
+on:
+  push:
+    branches: [main]
+    paths: ['CITATION.cff']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read the version from CITATION.cff
+        id: read
+        run: |
+          version=$(sed -n 's/^version:[[:space:]]*"\{0,1\}\([^"[:space:]]*\)"\{0,1\}.*/\1/p' CITATION.cff | head -1)
+          if [ -z "$version" ]; then
+            echo "CITATION.cff has no version field" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
+            echo "tagged=true" >> "$GITHUB_OUTPUT"
+            echo "v$version already exists; nothing to do"
+          else
+            echo "tagged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tag and publish the release
+        if: steps.read.outputs.tagged == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.read.outputs.version }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "v$VERSION" -m "$REPO_NAME $VERSION"
+          git push origin "v$VERSION"
+          gh release create "v$VERSION" --verify-tag --latest --generate-notes --title "$REPO_NAME $VERSION"
+          echo "released v$VERSION; Zenodo archives it from the release webhook" >> "$GITHUB_STEP_SUMMARY"
