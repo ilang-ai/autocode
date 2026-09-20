@@ -1,0 +1,38 @@
+{
+  "title": "AutoCode: 48 agent skills from a spoken request to a deployed URL",
+  "description": "<p>AutoCode is a skill pack that takes a plain-language request through building, testing and deployment in a single session and returns a live URL. It ships 48 skills with no dependencies, installs into Claude Code, Codex, Hermes, Cursor and Gemini, uses the I-Lang v5.0 judgment layer to decide when to stop and ask, and keeps deployment secrets out of the model context.</p>",
+  "version": "5.1.0",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Zhu, Long Quan",
+      "orcid": "0009-0004-4540-8082",
+      "affiliation": "iLang Inc."
+    }
+  ],
+  "keywords": [
+    "agent skills",
+    "deployment",
+    "I-Lang",
+    "judgment layer",
+    "Claude Code",
+    "Codex",
+    "automation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ilang-ai/autocode",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://ilang.ai/spec/",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-technicalnote",
+      "scheme": "url"
+    }
+  ]
+}
