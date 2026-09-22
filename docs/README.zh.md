@@ -320,7 +320,7 @@ AutoCode： → 几乎不问 → 你发现自己能看懂它在做什么了
 
 | 技能 | 说明 |
 |------|------|
-| 压缩 | I-Lang 结构化内部规划 |
+| 压缩 | iLang 结构化内部规划 |
 | 记忆 | 跨天记住 |
 </details>
 
@@ -328,7 +328,7 @@ AutoCode： → 几乎不问 → 你发现自己能看懂它在做什么了
 
 ## 💰 省钱
 
-[I-Lang](https://ilang.cn) 压缩。你什么都不用做。
+[iLang](https://ilang.cn) 压缩。你什么都不用做。
 
 ## 🧠 记忆
 
@@ -385,7 +385,7 @@ AutoCode永久免费。云电脑$6/月（新用户$300免费额度）。加上An
 
 **用 Trae？** 👉 [ZeroCode — 中文版，40个技能](https://github.com/ilang-ai/trae)
 
-**I-Lang Research · iLang Inc. · Canada · MIT · 永久免费**
+**iLang Research · iLang Inc. · Canada · MIT · 永久免费**
 
 *你说一句话。AutoCode 做完所有事。*
 

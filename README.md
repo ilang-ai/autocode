@@ -30,8 +30,8 @@ license: mit
 [![Skills](https://img.shields.io/badge/Skills-48-blueviolet)](#skills)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
 [![Platforms](https://img.shields.io/badge/Platforms-CC%20%7C%20Codex%20%7C%20Hermes%20%7C%20Cursor%20%7C%20Gemini-blue)](#-install)
-[![I-Lang Spec](https://img.shields.io/badge/I--Lang-Spec-d4a858)](https://github.com/ilang-ai/ilang-spec)
-[![I-Lang](https://img.shields.io/badge/I--Lang-v5.0-1e3a8a.svg)](https://ilang.ai)
+[![iLang Spec](https://img.shields.io/badge/iLang-Spec-d4a858)](https://github.com/ilang-ai/ilang-spec)
+[![iLang](https://img.shields.io/badge/iLang-v5.0-1e3a8a.svg)](https://ilang.ai)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22865145.svg)](https://doi.org/10.5281/zenodo.22865145)
 
 [🇨🇳 中文](docs/README.zh.md) · [🇯🇵 日本語](docs/README.ja.md) · [🇰🇷 한국어](docs/README.ko.md) · [🇪🇸 Español](docs/README.es.md) · [🇧🇷 Português](docs/README.pt.md) · [🇩🇪 Deutsch](docs/README.de.md) · [🇫🇷 Français](docs/README.fr.md) · [🇷🇺 Русский](docs/README.ru.md) · [🇸🇦 العربية](docs/README.ar.md) · [🇮🇳 हिन्दी](docs/README.hi.md)
@@ -44,7 +44,7 @@ license: mit
 > You don't need to know programming. You just say yes or no.
 > When it's done, anyone in the world can visit your website.
 >
-> Built on I-Lang, the first protocol to formally map Greek mathematical symbols (Σ, Δ, φ, λ, Ω, ∇, μ, Π, ψ, ξ, ζ, θ, ∂) as primitive verbs for AI-to-AI communication, and the first to define a computable vector space for AI judgment (11 dimensions, 4 axioms).
+> Built on iLang, the first protocol to formally map Greek mathematical symbols (Σ, Δ, φ, λ, Ω, ∇, μ, Π, ψ, ξ, ζ, θ, ∂) as primitive verbs for AI-to-AI communication, and the first to define a computable vector space for AI judgment (11 dimensions, 4 axioms).
 
 ---
 
@@ -345,7 +345,7 @@ All automatic. You never activate them.
 
 | Skill | What it does |
 |-------|-------------|
-| Compression | I-Lang v5.0 protocol, structured internal planning |
+| Compression | iLang v5.0 protocol, structured internal planning |
 | Memory | Remembers across sessions |
 </details>
 
@@ -353,7 +353,7 @@ All automatic. You never activate them.
 
 ## 🎯 Precision
 
-Powered by [I-Lang v5.0](https://ilang.ai). Structured instructions mean AI gets it right the first time. No rework.
+Powered by [iLang v5.0](https://ilang.ai). Structured instructions mean AI gets it right the first time. No rework.
 
 ## 🧠 Memory
 
@@ -372,7 +372,7 @@ Close today → open tomorrow → remembers everything. Gets better every sessio
 | **Deployment** | You figure it out | **Automatic** |
 | **Domain + SSL** | You figure it out | **Guided step by step** |
 | **Memory** | Resets each session | **Persistent** |
-| **Protocol** | None | **I-Lang v5.0** |
+| **Protocol** | None | **iLang v5.0** |
 | **Language** | Usually English | **Your language** |
 
 ---
@@ -415,9 +415,9 @@ AutoCode: free forever (MIT). Cloud computer: $6/month (or free with $300 Vultr 
 
 [ilang.ai](https://ilang.ai) · [ilang.cn](https://ilang.cn) · [Hugging Face](https://huggingface.co/datasets/i-Lang/AutoCode) · [@adsorgcn](https://x.com/adsorgcn)
 
-**I-Lang Research · iLang Inc. · Canada · MIT · Free Forever**
+**iLang Research · iLang Inc. · Canada · MIT · Free Forever**
 
-*You say it. AutoCode ships it. Powered by [I-Lang v5.0](https://ilang.ai).*
+*You say it. AutoCode ships it. Powered by [iLang v5.0](https://ilang.ai).*
 
 </div>
 

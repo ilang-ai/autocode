@@ -5,7 +5,7 @@ abstract: >-
   AutoCode is a skill pack that takes a plain-language request through
   building, testing and deployment in a single session and returns a live URL.
   It ships 48 skills with no dependencies, installs into Claude Code, Codex,
-  Hermes, Cursor and Gemini, uses the I-Lang v5.0 judgment layer to decide
+  Hermes, Cursor and Gemini, uses the iLang v5.0 judgment layer to decide
   when to stop and ask, and keeps deployment secrets out of the model context.
 type: software
 authors:
@@ -21,7 +21,7 @@ date-released: "2026-09-21"
 keywords:
   - agent skills
   - deployment
-  - I-Lang
+  - iLang
   - judgment layer
   - Claude Code
   - Codex
