@@ -5,7 +5,7 @@
 ### 你说一句话。所有编程，全自动。
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![v6.0.1](https://img.shields.io/badge/version-6.0.1-blue.svg)](https://github.com/ilang-ai/autocode/releases)
 [![Skills](https://img.shields.io/badge/专业技能-49项-blueviolet)](#48项专业技能)
 [![Zero Deps](https://img.shields.io/badge/依赖-0-brightgreen)](#安装)
 [![Memory](https://img.shields.io/badge/记忆-跨天持久-purple)](#记忆)

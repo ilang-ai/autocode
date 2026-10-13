@@ -26,7 +26,7 @@ license: mit
 ### You say it. AutoCode ships it.
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![v6.0.1](https://img.shields.io/badge/version-6.0.1-blue.svg)](https://github.com/ilang-ai/autocode/releases)
 [![Skills](https://img.shields.io/badge/Skills-49-blueviolet)](#-49-skills)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
 [![Platforms](https://img.shields.io/badge/Platforms-any%20SKILL.md%20agent-blue)](#-install)
