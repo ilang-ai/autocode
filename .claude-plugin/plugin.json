@@ -1,1 +1,71 @@
-{}
+{
+  "name": "autocode",
+  "version": "6.0.0",
+  "description": "You say it, AutoCode ships it. 49 skills. See a product you like, get a sourced blueprint and an MVP cut, build and deploy it in one session. I-Lang v5.0 judgment: AI decides the small stuff, checks with you on the costly stuff.",
+  "author": {
+    "name": "I-Lang Research, iLang Inc.",
+    "url": "https://github.com/ilang-ai/autocode"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ilang-ai/autocode",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-memory.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Apply AutoCode v6: 1) Detect the user's language, always reply in it. 2) Detect intent + project size. 3) If the user wants something like an existing product (\"like X\", \"similar to X\", names a product, pastes a product URL), run the product-study skill first: public pages only, sourced blueprint, MVP cut; the MVP hand-off is the build scope. 4) Decide what only you need to decide; ask the user ONLY when the action is costly, irreversible, or you truly don't know what they want (judge-when-to-ask). Present decisions as 'I'll do X, ok?'. 5) I-Lang v5.0 internal planning + judgment. 6) Before any deploy, run scripts/scan-secrets.sh; if it blocks, fix the leak then ship. 7) Code without deployment = incomplete. 8) Translate errors into plain human language first.",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh",
+            "timeout": 5
+          },
+          {
+            "type": "prompt",
+            "prompt": "FULL REVIEW entire project from beginning. Check every file. Save to .autocode/memory.md: [PROJECT:name|stack=x,status=x%] [DONE:features] [BROKEN:what|reason=x] [NEXT:tasks] [USER:lang=x,prefers=x]. Save prefs to ~/.autocode/user.md. Merge existing. Max 200 lines. Write now.",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/save-memory.sh",
+            "timeout": 5
+          },
+          {
+            "type": "prompt",
+            "prompt": "Compacting. FULL REVIEW. Save .autocode/memory.md + ~/.autocode/user.md. Structured format. Merge. Max 200 lines. Write now.",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

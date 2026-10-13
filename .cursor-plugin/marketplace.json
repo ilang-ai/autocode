@@ -1,6 +1,6 @@
 {
   "name": "autocode-marketplace",
-  "description": "48 skills. Code to deployment in one session. I-Lang v5.0 powered.",
+  "description": "49 skills. Code to deployment in one session. I-Lang v5.0 powered.",
   "owner": {
     "name": "I-Lang Research",
     "email": "contact@ilang.ai"
@@ -9,8 +9,8 @@
     {
       "name": "autocode",
       "source": ".",
-      "version": "5.0.0",
-      "description": "48 skills. Code to deployment in one session. I-Lang v5.0 powered."
+      "version": "6.0.0",
+      "description": "49 skills. See a product you like → sourced blueprint → MVP → deployed URL. I-Lang v5.0 powered."
     }
   ]
 }

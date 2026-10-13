@@ -1,0 +1,108 @@
+{
+  "$schema_note": "Declarative table of agents AutoCode can install into. One object per agent; adding an agent is adding an entry. Paths use {home}, {appdata}, {xdg_config}; a 'paths' override per platform (win32/darwin/linux) wins over the default. 'verified': true means a maintainer confirmed these conventions against the agent's docs or a live install; false means best-effort from public docs — doctor says so and the user should confirm.",
+  "version": 1,
+  "agents": [
+    {
+      "id": "claude_code",
+      "display_name": "Claude Code",
+      "marker": "{home}/.claude",
+      "skills_dir": "{home}/.claude/skills",
+      "persona_file": "{home}/.claude/CLAUDE.md",
+      "verified": true,
+      "notes": "Alternative: install as a plugin (/plugin marketplace add ilang-ai/autocode). Use one route, not both, or the skills show up twice."
+    },
+    {
+      "id": "codex",
+      "display_name": "Codex (OpenAI)",
+      "marker": "{home}/.codex",
+      "skills_dir": "{home}/.codex/skills",
+      "persona_file": "{home}/.codex/AGENTS.md",
+      "verified": true
+    },
+    {
+      "id": "cursor",
+      "display_name": "Cursor",
+      "marker": "{home}/.cursor",
+      "skills_dir": "{home}/.cursor/skills",
+      "persona_file": null,
+      "verified": false,
+      "notes": "Cursor has no global instructions file: paste the persona block (persona/AUTOCODE.md) into Settings → Rules for AI, or into a project's .cursor/rules."
+    },
+    {
+      "id": "gemini_cli",
+      "display_name": "Gemini CLI",
+      "marker": "{home}/.gemini",
+      "skills_dir": "{home}/.agents/skills",
+      "persona_file": "{home}/.gemini/GEMINI.md",
+      "verified": false,
+      "notes": "Alternative: gemini extensions install https://github.com/ilang-ai/autocode."
+    },
+    {
+      "id": "opencode",
+      "display_name": "OpenCode",
+      "marker": "{xdg_config}/opencode",
+      "skills_dir": "{xdg_config}/opencode/skills",
+      "persona_file": "{xdg_config}/opencode/AGENTS.md",
+      "verified": false
+    },
+    {
+      "id": "hermes",
+      "display_name": "Hermes Agent",
+      "marker": "{home}/.hermes",
+      "skills_dir": "{home}/.hermes/skills",
+      "persona_file": "{home}/.hermes/SOUL.md",
+      "verified": true,
+      "notes": "Alternative: hermes skills install ilang-ai/autocode."
+    },
+    {
+      "id": "codebuddy",
+      "display_name": "CodeBuddy CLI (Tencent)",
+      "marker": "{home}/.codebuddy",
+      "skills_dir": "{home}/.codebuddy/skills",
+      "persona_file": "{home}/.codebuddy/CODEBUDDY.md",
+      "verified": false
+    },
+    {
+      "id": "qwen_code",
+      "display_name": "Qwen Code",
+      "marker": "{home}/.qwen",
+      "skills_dir": "{home}/.qwen/skills",
+      "persona_file": "{home}/.qwen/QWEN.md",
+      "verified": false
+    },
+    {
+      "id": "windsurf",
+      "display_name": "Windsurf",
+      "marker": "{home}/.codeium/windsurf",
+      "skills_dir": "{home}/.codeium/windsurf/skills",
+      "persona_file": "{home}/.codeium/windsurf/memories/global_rules.md",
+      "verified": false
+    },
+    {
+      "id": "trae",
+      "display_name": "Trae",
+      "marker": "{home}/.trae",
+      "skills_dir": "{home}/.trae/skills",
+      "persona_file": null,
+      "verified": false,
+      "notes": "Trae keeps rules in its settings UI: paste persona/AUTOCODE.md there."
+    },
+    {
+      "id": "openclaw",
+      "display_name": "OpenClaw",
+      "marker": "{home}/.openclaw",
+      "skills_dir": "{home}/.openclaw/skills",
+      "persona_file": "{home}/.openclaw/SOUL.md",
+      "verified": false
+    },
+    {
+      "id": "generic",
+      "display_name": "Any SKILL.md-compatible agent (manual)",
+      "marker": null,
+      "skills_dir": null,
+      "persona_file": null,
+      "verified": true,
+      "notes": "Copy the skills/ directory into your agent's skills path and paste persona/AUTOCODE.md into its system prompt or rules. Doubao / 豆包: 技能页「自定义新建技能」把每个 SKILL.md 贴进去; WorkBuddy 海外版 / Muse: upload the skills folder in the Skills panel."
+    }
+  ]
+}

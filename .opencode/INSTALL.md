@@ -1,6 +1,17 @@
 # Installing AutoCode for OpenCode
 
-## Installation
+## Installation (recommended)
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git ~/.config/opencode/autocode
+python3 ~/.config/opencode/autocode/autocode.py setup --client opencode
+```
+
+`setup` shows what it will change, asks once, then copies the 49 skills into the
+agent's skills folder and adds one managed block to its instructions file. Check
+with `python3 ~/.config/opencode/autocode/autocode.py doctor`; remove with `uninstall`.
+
+## Manual installation
 
 ```bash
 git clone https://github.com/ilang-ai/autocode.git ~/.config/opencode/autocode
@@ -20,7 +31,7 @@ Before writing any code, read all skill files in ~/.config/opencode/autocode/ski
 ls ~/.config/opencode/autocode/skills/
 ```
 
-48 skills loaded. Describe what you want to build.
+49 skills loaded. Describe what you want to build.
 
 ## Update
 

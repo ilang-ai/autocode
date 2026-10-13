@@ -26,10 +26,10 @@ license: mit
 ### You say it. AutoCode ships it.
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v5.1.0](https://img.shields.io/badge/version-5.1.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
-[![Skills](https://img.shields.io/badge/Skills-48-blueviolet)](#skills)
+[![v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![Skills](https://img.shields.io/badge/Skills-49-blueviolet)](#-49-skills)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
-[![Platforms](https://img.shields.io/badge/Platforms-CC%20%7C%20Codex%20%7C%20Hermes%20%7C%20Cursor%20%7C%20Gemini-blue)](#-install)
+[![Platforms](https://img.shields.io/badge/Platforms-any%20SKILL.md%20agent-blue)](#-install)
 [![iLang Spec](https://img.shields.io/badge/iLang-Spec-d4a858)](https://github.com/ilang-ai/ilang-spec)
 [![iLang](https://img.shields.io/badge/iLang-v5.0-1e3a8a.svg)](https://ilang.ai)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22865145.svg)](https://doi.org/10.5281/zenodo.22865145)
@@ -44,6 +44,11 @@ license: mit
 > You don't need to know programming. You just say yes or no.
 > When it's done, anyone in the world can visit your website.
 >
+> **New in v6: see a product you like, get your own.** Say "I want something like *X*".
+> AutoCode studies *X* from its public pages only, writes a blueprint where every line
+> carries its source, cuts an MVP small enough to build in one session, and builds it.
+> It learns the structure and designs its own look — nothing is reverse-engineered or copied.
+>
 > Built on iLang, the first protocol to formally map Greek mathematical symbols (Σ, Δ, φ, λ, Ω, ∇, μ, Π, ψ, ξ, ζ, θ, ∂) as primitive verbs for AI-to-AI communication, and the first to define a computable vector space for AI judgment (11 dimensions, 4 axioms).
 
 ---
@@ -52,7 +57,22 @@ license: mit
 
 ## 🚀 Install
 
-**Claude Code (recommended):**
+**Any agent, one command (Claude Code, Codex, Hermes, OpenCode, Gemini CLI, CodeBuddy, Qwen Code, Windsurf, Cursor, Trae, OpenClaw …):**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup          # detects your agents, shows the plan, asks once, installs
+python3 autocode.py doctor         # read-only health check; run it whenever something feels off
+python3 autocode.py uninstall      # removes only what setup installed; your edits stay
+```
+
+Python 3.8+ and nothing else. `setup` copies the 49 skills into each agent's skills folder,
+adds one managed block to its instructions file (`CLAUDE.md`, `AGENTS.md`, `SOUL.md`, …) so
+agents without hooks still get memory, full review and the pre-deploy secret scan, and keeps
+backups of anything it touched. `python3 autocode.py clients` lists the supported agents;
+the table lives in [`agents.json`](agents.json) — adding an agent is adding an entry.
+
+**Claude Code plugin route (also fine):**
 
 ```
 /install autocode
@@ -85,7 +105,7 @@ Tell OpenCode:
 Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/autocode/refs/heads/main/.opencode/INSTALL.md
 ```
 
-**Works on Claude Code, Codex, and OpenCode.** Same 48 skills, zero changes.
+**Works on Claude Code, Codex, and OpenCode.** Same 49 skills, zero changes.
 
 ### Hermes Agent
 
@@ -235,9 +255,39 @@ AutoCode:  → Barely asks → Ships it → You realize you have 20 live website
 
 ---
 
-## 🧠 48 Skills
+## 🔍 See a product you like, get your own
+
+```
+You:      "I want a lightweight issue tracker like Linear, for my 10-person team"
+AutoCode:  "I'll study Linear from its public pages, give you a blueprint of how
+            it's built, and cut an MVP we can ship today. We learn the structure
+            and design our own look."
+          → reads pricing, docs, changelog, API docs, integrations, security, careers
+          → blueprint.md: 36 features (core / plus / drop), 13 objects with relations,
+            7 user flows, pricing, gaps — every line tagged [S3] {high|medium|guess}
+          → mvp.md: 5 objects, 7 screens, 7 build steps, 5 acceptance checks
+You:      cross out what you don't want, say "go"
+AutoCode:  → builds the MVP → deploys → "Live at https://… — open it on your phone."
+```
+
+The `product-study` skill works from public pages only: official site, docs, pricing,
+changelog, public API docs, open-source repos, app-store listings, public reviews.
+It refuses login areas, captures, decompiling and bulk scraping on its own, and its gate
+rejects a blueprint that cites nothing, copies a sentence, or embeds the original's
+images, logo or code. The interface, copy, brand and code of your product are yours.
+A finished example: [`skills/product-study/examples/linear/`](skills/product-study/examples/linear/).
+
+## 🧠 49 Skills
 
 All automatic. You never activate them.
+
+<details>
+<summary><b>🔍 Product study (1) — new in v6</b></summary>
+
+| Skill | What it does |
+|-------|-------------|
+| Product Study | "Like X" → public-source blueprint with evidence → MVP cut → build scope |
+</details>
 
 <details>
 <summary><b>📋 Understanding (5)</b></summary>
@@ -371,6 +421,7 @@ Close today → open tomorrow → remembers everything. Gets better every sessio
 | **Tech decisions** | Asks you | **Decides for you** |
 | **Deployment** | You figure it out | **Automatic** |
 | **Domain + SSL** | You figure it out | **Guided step by step** |
+| **Start from a product you like** | "Make a clone" and hope | **Public-source blueprint with evidence → MVP** |
 | **Memory** | Resets each session | **Persistent** |
 | **Protocol** | None | **iLang v5.0** |
 | **Language** | Usually English | **Your language** |
