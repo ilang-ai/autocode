@@ -1,3 +1,9 @@
+---
+name: session-start
+description: What AutoCode says and does when a session opens — first-run welcome, memory load, the standing rules for every session.
+version: 5.0.0
+---
+
 # AutoCode v5.0 — I-Lang v5.0 Protocol
 
 ::GENE{autocode|conf:confirmed|scope:global}

@@ -5,8 +5,8 @@
 ### 你说一句话。所有编程，全自动。
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v5.0.0](https://img.shields.io/badge/version-5.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
-[![Skills](https://img.shields.io/badge/专业技能-48项-blueviolet)](#48项专业技能)
+[![v6.0.0](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![Skills](https://img.shields.io/badge/专业技能-49项-blueviolet)](#48项专业技能)
 [![Zero Deps](https://img.shields.io/badge/依赖-0-brightgreen)](#安装)
 [![Memory](https://img.shields.io/badge/记忆-跨天持久-purple)](#记忆)
 [![平台](https://img.shields.io/badge/平台-CC%20%7C%20Codex%20%7C%20Hermes%20%7C%20Cursor%20%7C%20Gemini-blue)](#安装)
@@ -20,12 +20,51 @@
 > 你说一句话，AutoCode 帮你做出来。
 > 选技术、写代码、测试、上线——全部自动。
 > 你完全不需要懂编程。
+>
+> **v6 新增：看中一个产品，做出你自己的那一版。** 说「我想做一个像 X 的」，
+> AutoCode 只从 X 的公开页面学它的结构，出一份每条都带来源的蓝图，切出一个
+> 一个会话就能做完的 MVP，然后做出来。学的是结构，皮是自己长的——不逆向、不抄。
 
 ---
 
 </div>
 
 ## 🚀 安装
+
+**任何 Agent，一条命令**（Claude Code、Codex、Hermes、OpenCode、Gemini CLI、CodeBuddy、Qwen Code、Windsurf、Cursor、Trae、OpenClaw……）：
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup          # 自动识别你装了哪些 Agent，先给计划，问一次，再装
+python3 autocode.py doctor         # 只读自检，哪里不对一眼看到
+python3 autocode.py uninstall      # 只删它自己装的，你改过的留下
+```
+
+只要 Python 3.8+，不装任何包。`setup` 把 49 个技能拷进每个 Agent 的技能目录，往它的人设文件
+（`CLAUDE.md` / `AGENTS.md` / `SOUL.md`……）里加一段受管的块——没有 hooks 的 Agent 也能有记忆、
+完整复查和上线前密钥扫描——改过的文件都有备份。`python3 autocode.py clients` 列出支持的 Agent；
+表在 [`agents.json`](../agents.json)，加一个 Agent 就是加一条。
+
+### 看中一个产品，做出你自己的
+
+```
+你：      「我想做一个像 Linear 的轻量工单工具，给我们十个人的团队用」
+AutoCode： 「我从 Linear 的公开页面研究它，给你一份它怎么搭的蓝图，再切一个今天
+            就能上线的 MVP。学的是结构，界面我们自己设计。」
+          → 读定价、文档、更新日志、API 文档、集成、安全、招聘页
+          → blueprint.md：36 条功能（核心/增值/可砍）、13 个对象和关系、7 条用户流程、
+            定价、空白——每条带 [S3] {高|中|推测}
+          → mvp.md：5 个对象、7 个页面、7 步建造顺序、5 条验收
+你：      划掉不要的，说「开始」
+AutoCode： → 搭 MVP → 部署 → 「上线了：https://…，手机打开看看。」
+```
+
+`product-study` 只用公开页面：官网、文档、定价、changelog、公开 API 文档、开源仓库、应用商店、
+公开评测。登录区、抓包、反编译、批量爬取它自己就拒；蓝图门禁拒绝没来源的、照抄的、带原产品
+图片/logo/代码的。你的产品的界面、文案、品牌、代码都是你自己的。
+完整样例：[`skills/product-study/examples/linear/`](../skills/product-study/examples/linear/)。
+
+### 原来的安装方式（照旧可用）
 
 **👉 [看动画教程（3分钟，跟着做就行）](https://ilang.cn/acinstall.html)**
 
