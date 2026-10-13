@@ -1,12 +1,21 @@
 cff-version: 1.2.0
 message: "If you use autocode, please cite it as below."
-title: "AutoCode: 49 agent skills from a spoken request to a deployed URL"
+title: "AutoCode: 49 agent skills from a spoken request, or a product you admire, to a deployed URL"
 abstract: >-
-  AutoCode is a skill pack that takes a plain-language request through
-  building, testing and deployment in a single session and returns a live URL.
-  It ships 49 skills with no dependencies, installs into Claude Code, Codex,
-  Hermes, Cursor and Gemini, uses the iLang v5.0 judgment layer to decide
-  when to stop and ask, and keeps deployment secrets out of the model context.
+  AutoCode is a skill pack that takes a plain-language request through building,
+  testing and deployment in a single session and returns a live URL. Say "I want
+  something like X" and its product-study skill studies X from public pages
+  only, writes a blueprint in which every line carries its source and a
+  confidence level, cuts an MVP small enough to build in one session, and builds
+  it, learning the structure while designing its own look. One command, python3
+  autocode.py setup (Python 3.8+, no dependencies), detects the coding agents on
+  the machine and installs the 49 skills and a managed persona block into any of
+  them, including Claude Code, Codex, Hermes, OpenCode, Gemini CLI, Cursor,
+  Windsurf, Trae, CodeBuddy, Qwen Code and OpenClaw; doctor and uninstall leave
+  the user's own edits intact. AutoCode uses the iLang v5.0 judgment layer to
+  decide when to stop and ask, keeps deployment secrets out of the model
+  context, and ships a release gate that checks every manifest, version and
+  installer scenario before a release.
 type: software
 authors:
   - given-names: "Long Quan"
@@ -16,8 +25,8 @@ authors:
 repository-code: "https://github.com/ilang-ai/autocode"
 url: "https://github.com/ilang-ai/autocode"
 license: MIT
-version: "6.0.0"
-date-released: "2026-10-13"
+version: "6.0.1"
+date-released: "2026-10-14"
 keywords:
   - agent skills
   - deployment
@@ -26,3 +35,8 @@ keywords:
   - Claude Code
   - Codex
   - automation
+  - product-study
+  - installer
+  - MVP
+  - Hermes
+  - Gemini CLI
