@@ -129,8 +129,13 @@ pyfiles = [os.path.join(dp, f) for dp, _, fs in os.walk(ROOT) for f in fs if f.e
 r = subprocess.run([sys.executable, "-I", "-m", "py_compile"] + pyfiles, capture_output=True, text=True)
 check("all python compiles (%d files)" % len(pyfiles), r.returncode == 0, r.stderr[-300:])
 shfiles = [os.path.join(dp, f) for dp, _, fs in os.walk(ROOT) for f in fs if f.endswith(".sh") and ".git" not in dp]
-bad_sh = [f for f in shfiles if subprocess.run(["bash", "-n", f], capture_output=True).returncode != 0]
-check("all shell scripts parse (%d files)" % len(shfiles), not bad_sh, bad_sh)
+if sys.platform == "win32":
+    # On Windows, `bash` on PATH is usually the WSL launcher (no distro => error) and the
+    # checkout may be CRLF; the .sh files are POSIX scripts, parsed on the linux/macos jobs.
+    check("all shell scripts parse (%d files; skipped on Windows)" % len(shfiles), True)
+else:
+    bad_sh = [f for f in shfiles if subprocess.run(["bash", "-n", f], capture_output=True).returncode != 0]
+    check("all shell scripts parse (%d files)" % len(shfiles), not bad_sh, bad_sh)
 for dp, _, fs in os.walk(ROOT):
     pass
 shutil.rmtree(os.path.join(ROOT, "__pycache__"), ignore_errors=True)
