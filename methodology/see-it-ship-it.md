@@ -189,16 +189,19 @@ values may be Chinese.
 ## 5. Where today's skills land (convergence map)
 
 ::LIST{@STAGE_SKILLS}
-S1-see: understand-intent, user-level-detect, product-study(Step 0) — missing: target classification
-S2-study: product-study(Steps 1-4), fetch_public.py, blueprint.py — missing: open-source class, license-from-header
-S3-cut: product-study(Step 5), clarify-scope, requirement-lock — missing: executable acceptance format, learned-vs-own section
-S4-build: plan-breakdown, build-scaffold, build-feature, build-ui, env-setup — missing: rules/skin separation contract
-S5-verify: (none; auto-quality and full-review review code, not user acceptance) — missing: acceptance runner as fixed output
-S6-ship: go-live, deploy-cf-workers, deploy-global, deploy-vps, run-on-server, domain-bind, security — missing: static zero-cost target, verify-live hard rule, account-state detection
-S7-hand-back: celebrate, progress-report, memory, learn-pattern, learn-preference — missing: fixed hand-back shape
-cross-cutting: judge-when-to-ask, ask-smart, decision-translate, cost-explain, save-rollback, fix-* (6), learn-mistake, session-start, daily-summary, milestone, compress, performance, multi-device, best-choice, efficiency-compare, file-transfer, plan-estimate, plan-priority, plan-risk, project-roadmap
+S1-see: see  (was: understand-intent, user-level-detect, clarify-scope, requirement-lock)
+S2-study: product-study  (unchanged; owns fetch_public.py, blueprint.py, acceptance_run.py)
+S3-cut: plan  (was: plan-breakdown, plan-estimate, plan-priority, plan-risk, project-roadmap, efficiency-compare, compress)
+S4-build: build  (was: build-scaffold, build-feature, build-ui, env-setup, run-on-server, performance, save-rollback, multi-device)
+S5-verify: verify  (was: auto-quality, full-review; plus the acceptance table)
+S6-ship: ship  (was: go-live, deploy-cf-workers, deploy-global, deploy-vps, domain-bind, file-transfer; owns go_live_pages.py)
+S7-hand-back: hand-back  (was: celebrate, progress-report, milestone, daily-summary)
+cross-cutting: judge  (was: judge-when-to-ask, ask-smart, decision-translate, cost-explain, best-choice; owns f_v5.py)
+cross-cutting: fix  (was: fix-auto, fix-observe, fix-reason, fix-solve, fix-guide, fix-explain)
+cross-cutting: memory  (was: memory, session-start, learn-pattern, learn-preference, learn-mistake)
+cross-cutting: security  (unchanged)
 
-::FACT{key:skills_today|value:49|conf:5/5}
+::FACT{key:skills_today|value:11|conf:5/5}
 ::FACT{key:stages|value:7|conf:5/5}
 ::FACT{key:first_evidence_run|value:examples/dino|conf:5/5}
 

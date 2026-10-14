@@ -38,7 +38,7 @@ import os
 import shutil
 import sys
 
-VERSION = "6.1.0"
+VERSION = "6.2.0"
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENTS_FILE = os.path.join(HERE, "agents.json")
 SKILLS_SRC = os.path.join(HERE, "skills")
@@ -194,6 +194,19 @@ def plan_client(agent, ctx, manifest):
                     steps.append(("update", "skill", dest, src_sha))
                 else:
                     steps.append(("conflict", "skill", dest, src_sha))
+        # skills we installed earlier that this version no longer ships (merged or renamed):
+        # remove them if untouched, leave them (and say so) if the user edited them
+        current = set(source_skills())
+        for name, info in sorted(rec.get("skills", {}).items()):
+            if name in current:
+                continue
+            dest = info.get("path") or os.path.join(p["skills_dir"], name)
+            if not os.path.isdir(dest):
+                steps.append(("forget", "skill", dest, None))
+            elif sha_tree(dest) == info.get("sha"):
+                steps.append(("retire", "skill", dest, None))
+            else:
+                steps.append(("retire-edited", "skill", dest, None))
     if not p["persona_file"]:
         steps.append(("manual", "persona", agent.get("notes", "paste persona/AUTOCODE.md into the agent's rules")))
     else:
@@ -231,6 +244,10 @@ def print_plan(agent, steps, ctx):
             print("   %-13s %s: %s" % (s[0], s[1], s[2]))
         elif s[0] == "conflict":
             print("   %-13s %s  (exists, not installed by AutoCode or edited since: left alone; use --force to overwrite)" % (s[0], s[2]))
+        elif s[0] == "retire":
+            print("   %-13s %s  (this version merged it into another skill; removed, backup kept)" % (s[0], s[2]))
+        elif s[0] == "retire-edited":
+            print("   %-13s %s  (merged into another skill, but you edited it: left in place; delete it yourself when ready)" % (s[0], s[2]))
     print("   backups of changed files go to %s" % os.path.join(ctx.autocode_home, "backups", agent["id"]))
 
 
@@ -251,6 +268,14 @@ def apply_plan(agent, p, steps, ctx, manifest, force):
                 rec["skills"][name] = {"path": dest, "sha": src_sha}
             elif act == "keep":
                 rec["skills"][name] = {"path": dest, "sha": src_sha}
+            elif act == "retire":
+                backup_dir = os.path.join(ctx.autocode_home, "backups", cid, "skills")
+                os.makedirs(backup_dir, exist_ok=True)
+                shutil.move(dest, os.path.join(backup_dir, "%s.%s" % (name, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))))
+                rec["skills"].pop(name, None)
+            elif act == "forget":
+                rec["skills"].pop(name, None)
+            # retire-edited: left in place and still recorded, so doctor keeps mentioning it
         elif kind == "persona" and act != "manual":
             path = s[2]
             block = persona_block(ctx, p["skills_dir"])
@@ -319,7 +344,7 @@ def cmd_setup(args, ctx, agents):
         p, steps = plan_client(a, ctx, manifest)
         print_plan(a, steps, ctx)
         plans.append((a, p, steps))
-    changes = sum(1 for _, _, steps in plans for s in steps if s[0] in ("create", "update", "replace-block", "append-block") or (s[0] == "conflict" and args.force))
+    changes = sum(1 for _, _, steps in plans for s in steps if s[0] in ("create", "update", "replace-block", "append-block", "retire", "forget") or (s[0] == "conflict" and args.force))
     if args.dry_run:
         print("dry run: %d change(s) would be made, nothing written" % changes)
         return 0
@@ -376,6 +401,8 @@ def cmd_doctor(args, ctx, agents):
                 elif sha_tree(dest) != src_sha:
                     changed.append(name)
             c("all %d skills installed" % len(source_skills()), not missing, "missing %s; run setup" % ", ".join(missing[:5]))
+            stale = [n for n in rec.get("skills", {}) if n not in source_skills() and os.path.isdir(rec["skills"][n].get("path", ""))]
+            c("no skills left over from an older version", not stale, "%s merged into other skills; run setup to retire them (edited ones are left for you)" % ", ".join(stale[:5]))
             c("installed skills match this version", not changed, "differs: %s; run setup to update (your edits are backed up)" % ", ".join(changed[:5]))
         if p["persona_file"]:
             present, current = False, False

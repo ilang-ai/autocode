@@ -1,8 +1,10 @@
 ---
 name: product-study
 description: Study an existing product from its public pages and turn it into an evidence-backed blueprint plus an MVP cut that AutoCode can build and ship. Use this whenever the user wants something "like X", "similar to X", "my own version of X", "a clone of X", names a competitor they admire, or pastes a product URL and asks to build it — even when they never say "research" or "analyze". Public sources only (official site, docs, pricing, changelog, public repos, app-store listings, public reviews); no logins, captures, decompiling, or copying of code, copy, images or brand.
-version: 6.1.0
+version: 6.2.0
 ---
+
+[PROTOCOL:iLang|v=5.0|layer=declaration]
 
 ::GENE{product-study|conf:confirmed|scope:global}
   T:learn_structure_not_skin
@@ -176,8 +178,8 @@ python3 $SKILL/scripts/blueprint.py mvp <slug>        # writes mvp.md from secti
 Show the user, in their language: the one-paragraph summary (section 0), the
 MVP cut, and one line inviting them to cross out or add. Two decisions are theirs:
 the scope of v1 and anything that costs money. Everything else you decide.
-When they say go, `mvp.md` is the input to the build (plan-breakdown →
-build-scaffold → build-feature → Step 6 → go-live in AutoCode); the rest of the
+When they say go, `mvp.md` is the input to the build (plan → build → verify →
+ship in AutoCode); the rest of the
 blueprint is context, not scope.
 
 While building, keep the rules (numbers, formulas, state changes) in one block that
@@ -185,7 +187,7 @@ loads without a browser — in a web build, `<script id="rules">` with no DOM ac
 and tag the learned ones `[learned]` in the code. Everything else is rendering and is
 yours. This is what makes Step 6 possible.
 
-## Step 6 — Verify (before go-live, and again on the live URL)
+## Step 6 — Verify (before ship, and again on the live URL)
 
 Next to the build, write a checks file, `acceptance.js` (node) or `acceptance.py`,
 that loads the rules block, performs the machine part of every acceptance line, and
@@ -193,10 +195,10 @@ prints one JSON row per check: `{"id","check","expected","actual","ok"}`. Then:
 
 ```bash
 python3 $SKILL/scripts/acceptance_run.py <site_dir>                 # local build: table of check / expected / actual / match
-python3 $SKILL/scripts/acceptance_run.py <site_dir> --url <live>    # after go-live: the same table against the served page
+python3 $SKILL/scripts/acceptance_run.py <site_dir> --url <live>    # after ship: the same table against the served page
 ```
 
-The runner exits non-zero on any mismatch; go-live refuses to continue on that. The
+The runner exits non-zero on any mismatch; ship refuses to continue on that. The
 table is what the user sees — never "tests passed". The acceptance lines a machine
 cannot check are handed to the user as actions to perform, in the hand-back. Worked
 run: `examples/dino/` (8/8 match, including a floating-point boundary the original
