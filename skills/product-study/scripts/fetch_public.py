@@ -41,7 +41,7 @@ import urllib.request
 import urllib.robotparser
 from html.parser import HTMLParser
 
-VERSION = "6.0.1"
+VERSION = "6.1.0"
 USER_AGENT = "autocode-product-study/%s (+https://github.com/ilang-ai/autocode; public pages only)" % VERSION
 DEFAULT_ROOT = os.path.join(".autocode", "study")
 MAX_BYTES = 3 * 1024 * 1024
@@ -495,6 +495,22 @@ def cmd_github(args):
                                   else "GPL-2.0" if "GNU GENERAL PUBLIC LICENSE" in head else "MIT" if "MIT LICENSE" in head or "PERMISSION IS HEREBY GRANTED" in head
                                   else "Apache-2.0" if "APACHE LICENSE" in head else "BSD" if "REDISTRIBUTION AND USE" in head else "see file")
                     break
+            if license_id:
+                break
+    if not license_id:
+        # no LICENSE file: many small repos carry the notice in the header of their main source file
+        for br in branches:
+            for fn in ("index.js", "main.js", "app.js", "index.html", "main.py", "app.py", "src/index.js", "src/main.js"):
+                rec_h, src = f.fetch_page("https://raw.githubusercontent.com/%s/%s/%s/%s" % (owner, name, br, fn))
+                if src:
+                    head = src[:1200].upper()
+                    license_id = ("AGPL-3.0" if "AFFERO" in head else "GPL" if "GNU GENERAL PUBLIC LICENSE" in head
+                                  else "MIT" if "MIT LICENSE" in head or "PERMISSION IS HEREBY GRANTED" in head
+                                  else "Apache-2.0" if "APACHE LICENSE" in head
+                                  else "BSD (file header)" if "BSD-STYLE LICENSE" in head or "REDISTRIBUTION AND USE" in head else None)
+                    if license_id:
+                        license_id += " via %s" % fn
+                        break
             if license_id:
                 break
     rec = dict(readme_rec)

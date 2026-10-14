@@ -303,11 +303,22 @@ def cmd_check(args):
     n_obj, n_scr = count_items("Objects"), count_items("Screens")
     check("MVP objects listed and <= %d" % MAX_OBJECTS, n_obj is not None and 1 <= n_obj <= MAX_OBJECTS, "found %s" % n_obj)
     check("MVP screens listed and <= %d" % MAX_SCREENS, n_scr is not None and 1 <= n_scr <= MAX_SCREENS, "found %s" % n_scr)
-    steps = re.findall(r"^\s*\d+\.\s+\S", mtxt, re.M)
+    bo = mtxt.split("**Build order", 1)[1] if "**Build order" in mtxt else ""
+    bo = re.split(r"\n\*\*", bo, 1)[0]  # the numbered steps between the Build order label and the next bold label
+    steps = re.findall(r"^\s*\d+\.\s+\S", bo, re.M)
     check("MVP build order has >= 3 steps", len(steps) >= 3, "found %d" % len(steps))
     acc = mtxt.split("**Acceptance", 1)[1] if "**Acceptance" in mtxt else ""
-    n_acc = len(re.findall(r"^\s*(?:[-*]|\d+\.)\s+\S", acc, re.M))
-    check("MVP acceptance has >= 3 checks a user can perform", n_acc >= 3, "found %d" % n_acc)
+    acc = acc.split("**Learned", 1)[0]
+    acc_lines = re.findall(r"^\s*(?:[-*]|\d+\.)\s+(\S.*)$", acc, re.M)
+    check("MVP acceptance has 3-5 checks", 3 <= len(acc_lines) <= 5, "found %d" % len(acc_lines))
+    # each check = what the user does -> what they should see -> what a machine can verify (the third part may say "manual")
+    three = [l for l in acc_lines if len(re.split(r"\s(?:->|→|⇒)\s", l)) >= 3]
+    check("every acceptance check has three parts (user does -> should see -> machine checks)", acc_lines and len(three) == len(acc_lines), "%d of %d" % (len(three), len(acc_lines)))
+    lvo = re.search(r"\*\*Learned[^*]*\*\*\s*(.+)", mtxt, re.S)
+    lvo_txt = lvo.group(1) if lvo else ""
+    lvo_lines = [l for l in lvo_txt.splitlines() if l.strip()]
+    says_own = bool(re.search(r"\bown\b|自己", lvo_txt, re.I))
+    check("MVP says which rules were learned from the target and which are our own", bool(lvo) and lvo_lines and says_own, "found %d lines%s" % (len(lvo_lines), "" if says_own else ", no 'own' part"))
     check("'what we will not copy' section has its four lines", len(claim_lines(dict(sections).get(10, []))) >= 4)
 
     print("%d ok, %d fail" % (len(oks), len(fails)))
@@ -328,7 +339,12 @@ def cmd_mvp(args):
         print("section 9 (MVP cut) is not finished; fill it, run check, then mvp")
         return 1
     out = ["# MVP hand-off", ""] + head + ["", "Source blueprint: blueprint.md (same folder). Build only what is below; the rest of the blueprint is context, not scope.", "",
-                                           "## MVP cut"] + sec9 + ["", "## What we will not copy"] + sec10
+                                           "## MVP cut"] + sec9 + ["", "## What we will not copy"] + sec10 + ["",
+                                           "## Verify", "",
+                                           "Keep the rules (numbers, formulas, state changes) in one block the acceptance runner can load without a browser; tag the learned ones [learned].",
+                                           "Ship a checks file next to the build (acceptance.js or acceptance.py) that prints one JSON row per machine check; run it with",
+                                           "`python3 <product-study>/scripts/acceptance_run.py <site_dir>` before go-live and again with `--url <live url>` after. The table it prints is what the user sees.",
+                                           "The remaining checks are actions the user performs; list them as actions, never as 'tests passed'."]
     with open(mvp_path, "w", encoding="utf-8") as f:
         f.write("\n".join(l.rstrip() for l in out).strip() + "\n")
     print("wrote %s" % mvp_path)

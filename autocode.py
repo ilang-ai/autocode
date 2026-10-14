@@ -38,7 +38,7 @@ import os
 import shutil
 import sys
 
-VERSION = "6.0.1"
+VERSION = "6.1.0"
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENTS_FILE = os.path.join(HERE, "agents.json")
 SKILLS_SRC = os.path.join(HERE, "skills")

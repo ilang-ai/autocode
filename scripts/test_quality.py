@@ -69,7 +69,7 @@ for name in skills:
     if not fm.get("version", "").strip():
         bad_fm.append(name + ": no version")
 check("every skill has frontmatter with matching name, description, version", not bad_fm, bad_fm[:5])
-no_pycache = [p for p in subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout.splitlines() if "__pycache__" in p or p.endswith(".pyc")]
+no_pycache = [p for p in subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, encoding="utf-8", errors="replace").stdout.splitlines() if "__pycache__" in p or p.endswith(".pyc")]
 check("no __pycache__ or .pyc tracked in git", not no_pycache, no_pycache[:3])
 
 # ---- counts and versions across manifests
@@ -126,7 +126,7 @@ check("persona names product-study and the memory file", "product-study" in pers
 
 # ---- scripts compile
 pyfiles = [os.path.join(dp, f) for dp, _, fs in os.walk(ROOT) for f in fs if f.endswith(".py") and ".git" not in dp and "__pycache__" not in dp]
-r = subprocess.run([sys.executable, "-I", "-m", "py_compile"] + pyfiles, capture_output=True, text=True)
+r = subprocess.run([sys.executable, "-I", "-m", "py_compile"] + pyfiles, capture_output=True, encoding="utf-8", errors="replace")
 check("all python compiles (%d files)" % len(pyfiles), r.returncode == 0, r.stderr[-300:])
 shfiles = [os.path.join(dp, f) for dp, _, fs in os.walk(ROOT) for f in fs if f.endswith(".sh") and ".git" not in dp]
 if sys.platform == "win32":
@@ -145,8 +145,24 @@ for dp, ds, _ in os.walk(ROOT):
             shutil.rmtree(os.path.join(dp, d), ignore_errors=True)
 
 # ---- product-study selftest
-r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "selftest.py")], capture_output=True, text=True)
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "selftest.py")], capture_output=True, encoding="utf-8", errors="replace")
 check("product-study selftest passes", r.returncode == 0, (r.stdout + r.stderr)[-400:])
+
+# ---- see-it-ship-it: methodology present, S5 runner self-tests, the dino example passes its gates
+meth = read("methodology/see-it-ship-it.md")
+stage_genes = ["see-it-ship-it", "S1-see", "S2-study", "S3-cut", "S4-build", "S5-verify", "S6-ship", "S7-hand-back"]
+check("methodology/see-it-ship-it.md declares the objective and the 8 genes",
+      "::OBJECTIVE{id:see-it-ship-it" in meth and all("::GENE{%s|" % g in meth for g in stage_genes),
+      [g for g in stage_genes if "::GENE{%s|" % g not in meth])
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "acceptance_run.py"), "--selftest"], capture_output=True, encoding="utf-8", errors="replace")
+check("acceptance_run.py (S5-verify) selftest passes", r.returncode == 0, (r.stdout + r.stderr)[-300:])
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "blueprint.py"), "check", "dino", "--root", os.path.join(ROOT, "skills", "product-study", "examples")], capture_output=True, encoding="utf-8", errors="replace")
+check("examples/dino blueprint passes the product-study gate", r.returncode == 0, (r.stdout + r.stderr)[-400:])
+dino_site = os.path.join(ROOT, "skills", "product-study", "examples", "dino", "site")
+check("examples/dino ships a rules block and a checks file", '<script id="rules">' in read(os.path.join(dino_site, "index.html")) and os.path.exists(os.path.join(dino_site, "acceptance.js")))
+if shutil.which("node"):
+    r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "acceptance_run.py"), dino_site], capture_output=True, encoding="utf-8", errors="replace")
+    check("examples/dino acceptance: every machine check matches (node)", r.returncode == 0 and "8/8" in r.stdout, (r.stdout + r.stderr)[-400:])
 
 # ---- installer scenarios on a fake home
 def run(*argv):

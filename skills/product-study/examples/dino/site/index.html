@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>小恐龙跑酷 · 自己调速度</title>
+<style>
+  :root {
+    --bg: #f6f3ea; --fg: #2b2b2b; --muted: #6b6b6b; --panel: #ffffff; --line: #d9d4c7;
+    --accent: #2f7d5b; --accent-ink: #ffffff; --sky: #eaf4ff; --ground: #c9b48a; --dino: #2f7d5b; --cactus: #4e8f3a; --danger: #b43c2a;
+    box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #ececec; --muted: #9a9a9a; --panel: #1f2328; --line: #343a40;
+    --accent: #4fb584; --accent-ink: #0d1a14; --sky: #1b2430; --ground: #6b5a3a; --dino: #4fb584; --cactus: #7cc45f; --danger: #e06a56; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #15171a; --fg: #ececec; --muted: #9a9a9a; --panel: #1f2328; --line: #343a40; --accent: #4fb584; --accent-ink: #0d1a14; --sky: #1b2430; --ground: #6b5a3a; --dino: #4fb584; --cactus: #7cc45f; --danger: #e06a56; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
+  .stage { position: relative; background: var(--sky); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: auto; }
+  .overlay { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; background: rgba(0,0,0,.35); color: #fff; font-weight: 600; font-size: 20px; }
+  .overlay.show { display: flex; }
+  .hud { position: absolute; top: 10px; right: 14px; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  label { display: block; font-size: 14px; color: var(--muted); }
+  input[type=range] { width: 100%; }
+  .speedval { font-size: 28px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--fg); }
+  .help { font-size: 13px; color: var(--muted); margin-top: 12px; }
+  .help b { color: var(--fg); }
+</style>
+</head>
+<body>
+<main>
+  <h1>小恐龙跑酷 · 自己调速度</h1>
+  <p class="sub">空格或「跳跃」让恐龙跳过仙人掌。拖滑块定一个速度，或打开「自动加速」体验越跑越快。</p>
+
+  <div class="stage">
+    <canvas id="game" width="800" height="240" aria-label="游戏画面"></canvas>
+    <div class="hud" id="hud">距离 0 · 最高 0</div>
+    <div class="overlay" id="overlay"><div id="overlayText">按「开始」或空格</div></div>
+  </div>
+
+  <div class="controls">
+    <div class="card">
+      <label>操作</label>
+      <div class="buttons">
+        <button id="btnStart" class="primary">开始</button>
+        <button id="btnJump">跳跃</button>
+        <button id="btnRestart">重开</button>
+      </div>
+    </div>
+    <div class="card">
+      <label for="speed">速度 <span class="speedval" id="speedVal">6.000</span></label>
+      <input type="range" id="speed" min="2" max="18" step="0.5" value="6" aria-label="速度">
+    </div>
+    <div class="card">
+      <label>模式</label>
+      <div class="check"><input type="checkbox" id="auto"><label for="auto" style="margin:0;color:inherit">自动加速（从 6 开始，每次更新 +0.001，到 13 停）</label></div>
+    </div>
+  </div>
+
+  <p class="help"><b>学来的规则</b>：起始速度 6、每次逻辑更新加 0.001、上限 13、重力 0.6、起跳速度 12（来自公开的开源仓库）。<b>自己定的</b>：画面、恐龙和仙人掌的样子、每秒 60 次逻辑更新、开始后 1.5 秒无障碍、滑块范围 2–18。</p>
+</main>
+
+<!-- ======================================================================
+     RULES — pure functions, no DOM. The acceptance script runs this block
+     in node. Numbers marked [learned] come from the studied public repo;
+     everything else is our own design.
+     ====================================================================== -->
+<script id="rules">
+var Rules = (function () {
+  var C = {
+    START_SPEED: 6,          // [learned]
+    ACCELERATION: 0.001,     // [learned] per logic update
+    MAX_SPEED: 13,           // [learned] accelerate only while below this
+    GRAVITY: 0.6,            // [learned] per update
+    JUMP_VELOCITY: 12,       // [learned] initial upward velocity
+    UPDATES_PER_SECOND: 60,  // own: fixed logic timestep
+    CLEAR_TIME_UPDATES: 90,  // own: 1.5 s without obstacles after start
+    MIN_SPEED: 2, MAX_SLIDER: 18, // own: slider range
+    GROUND_Y: 0, DINO_W: 34, DINO_H: 40, // own: geometry in game units (y grows upward)
+    MIN_GAP: 160, GAP_PER_SPEED: 26, // own: obstacle spacing
+    CACTUS_SIZES: [[18, 36], [26, 46], [40, 44]], // own: w,h variants
+    WORLD_W: 800
+  };
+
+  function accelerate(speed) {               // [learned] check-then-add
+    if (speed < C.MAX_SPEED) return speed + C.ACCELERATION;
+    return speed;
+  }
+
+  function simulateAcceleration(updates) {   // for acceptance: speed after n updates from START_SPEED
+    var s = C.START_SPEED;
+    for (var i = 0; i < updates; i++) s = accelerate(s);
+    return s;
+  }
+
+  function newState() {
+    return { status: 'waiting', speed: C.START_SPEED, auto: false, distance: 0, best: 0,
+             updates: 0, dinoY: 0, dinoVy: 0, jumping: false, obstacles: [], nextGap: 0, rng: 1 };
+  }
+
+  function rand(st) { st.rng = (st.rng * 1664525 + 1013904223) % 4294967296; return st.rng / 4294967296; }
+
+  function start(st) {
+    if (st.status === 'playing') return st;
+    if (st.status === 'crashed') restart(st);
+    st.status = 'playing';
+    if (st.auto) st.speed = C.START_SPEED;
+    return st;
+  }
+
+  function restart(st) {
+    var best = st.best, auto = st.auto, speed = auto ? C.START_SPEED : st.speed;
+    var fresh = newState();
+    fresh.best = best; fresh.auto = auto; fresh.speed = speed; fresh.status = 'playing';
+    for (var k in fresh) st[k] = fresh[k];
+    return st;
+  }
+
+  function setSliderSpeed(st, value) {       // dragging the slider = fixed speed, auto off
+    var v = Math.max(C.MIN_SPEED, Math.min(C.MAX_SLIDER, Number(value)));
+    st.auto = false; st.speed = v;
+    return st;
+  }
+
+  function setAuto(st, on) {
+    st.auto = !!on;
+    if (st.auto) st.speed = C.START_SPEED;
+    return st;
+  }
+
+  function jump(st) {
+    if (st.status !== 'playing' || st.jumping) return st;
+    st.jumping = true; st.dinoVy = C.JUMP_VELOCITY;
+    return st;
+  }
+
+  function spawn(st) {
+    var size = C.CACTUS_SIZES[Math.floor(rand(st) * C.CACTUS_SIZES.length)];
+    st.obstacles.push({ x: C.WORLD_W + 10, w: size[0], h: size[1] });
+    st.nextGap = C.MIN_GAP + C.GAP_PER_SPEED * st.speed + rand(st) * 120;
+  }
+
+  function hits(st, o) {
+    var dx0 = 40, dx1 = 40 + C.DINO_W;
+    return o.x < dx1 - 4 && o.x + o.w > dx0 + 4 && st.dinoY < o.h - 4;
+  }
+
+  function update(st) {                       // one logic update (60 per second)
+    if (st.status !== 'playing') return st;
+    st.updates += 1;
+    if (st.jumping) {
+      st.dinoY += st.dinoVy; st.dinoVy -= C.GRAVITY;
+      if (st.dinoY <= 0) { st.dinoY = 0; st.dinoVy = 0; st.jumping = false; }
+    }
+    for (var i = st.obstacles.length - 1; i >= 0; i--) {
+      st.obstacles[i].x -= st.speed;
+      if (st.obstacles[i].x + st.obstacles[i].w < -20) st.obstacles.splice(i, 1);
+    }
+    if (st.updates > C.CLEAR_TIME_UPDATES) {
+      var last = st.obstacles[st.obstacles.length - 1];
+      if (!last || (C.WORLD_W - last.x) > st.nextGap) spawn(st);
+    }
+    for (var j = 0; j < st.obstacles.length; j++) {
+      if (hits(st, st.obstacles[j])) { st.status = 'crashed'; return st; }
+    }
+    st.distance += st.speed / 10;
+    if (st.distance > st.best) st.best = st.distance;
+    if (st.auto) st.speed = accelerate(st.speed);
+    return st;
+  }
+
+  return { C: C, accelerate: accelerate, simulateAcceleration: simulateAcceleration, newState: newState,
+           start: start, restart: restart, setSliderSpeed: setSliderSpeed, setAuto: setAuto, jump: jump, update: update };
+})();
+if (typeof module !== 'undefined') module.exports = Rules;
+</script>
+
+<!-- ============================ VIEW (our own look) ============================ -->
+<script>
+(function () {
+  var canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
+  var overlay = document.getElementById('overlay'), overlayText = document.getElementById('overlayText');
+  var hud = document.getElementById('hud'), speedVal = document.getElementById('speedVal');
+  var slider = document.getElementById('speed'), auto = document.getElementById('auto');
+  var st = Rules.newState();
+  var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
+  var GROUND = 200;
+
+  function fmt(n) { return (Math.round(n * 1000) / 1000).toFixed(3); }
+
+  function draw() {
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = css('--sky'); ctx.fillRect(0, 0, W, H);
+    // ground band
+    ctx.fillStyle = css('--ground'); ctx.fillRect(0, GROUND, W, H - GROUND);
+    ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.moveTo(0, GROUND + .5); ctx.lineTo(W, GROUND + .5); ctx.stroke();
+    // dino: rounded body, head, eye, legs — our own shape
+    var dx = 40, dy = GROUND - st.dinoY, C = Rules.C;
+    ctx.fillStyle = css('--dino');
+    rr(dx, dy - C.DINO_H, C.DINO_W, C.DINO_H - 8, 8);
+    rr(dx + 14, dy - C.DINO_H - 14, 28, 20, 6);
+    ctx.fillRect(dx + 6, dy - 8, 8, 8); ctx.fillRect(dx + 20, dy - 8, 8, 8);
+    ctx.fillStyle = css('--bg'); ctx.fillRect(dx + 32, dy - C.DINO_H - 8, 4, 4);
+    // cacti: columns with arms
+    ctx.fillStyle = css('--cactus');
+    st.obstacles.forEach(function (o) {
+      rr(o.x, GROUND - o.h, o.w, o.h, 6);
+      if (o.w > 20) { rr(o.x - 8, GROUND - o.h * .7, 8, o.h * .4, 4); rr(o.x + o.w, GROUND - o.h * .6, 8, o.h * .35, 4); }
+    });
+    hud.textContent = '距离 ' + Math.floor(st.distance) + ' · 最高 ' + Math.floor(st.best);
+    speedVal.textContent = fmt(st.speed);
+  }
+  function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); ctx.fill(); }
+
+  function showOverlay(text) { overlayText.textContent = text; overlay.classList.add('show'); }
+  function hideOverlay() { overlay.classList.remove('show'); }
+
+  // fixed 60 updates/second regardless of display refresh rate
+  var acc = 0, last = 0, STEP = 1000 / Rules.C.UPDATES_PER_SECOND;
+  function frame(now) {
+    if (!last) last = now;
+    acc += Math.min(now - last, 250); last = now;
+    while (acc >= STEP) {
+      Rules.update(st); acc -= STEP;
+      if (st.status === 'crashed') { showOverlay('游戏结束 · 距离 ' + Math.floor(st.distance) + '，按「重开」或空格再来'); break; }
+    }
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  function doStart() { Rules.start(st); hideOverlay(); syncSlider(); }
+  function doJump() { if (st.status === 'playing') Rules.jump(st); else if (st.status === 'waiting') doStart(); else if (st.status === 'crashed') doRestart(); }
+  function doRestart() { Rules.restart(st); hideOverlay(); syncSlider(); }
+  function syncSlider() { slider.value = Math.max(2, Math.min(18, st.speed)); }
+
+  document.getElementById('btnStart').addEventListener('click', doStart);
+  document.getElementById('btnJump').addEventListener('click', doJump);
+  document.getElementById('btnRestart').addEventListener('click', doRestart);
+  slider.addEventListener('input', function () { Rules.setSliderSpeed(st, slider.value); auto.checked = false; draw(); });
+  auto.addEventListener('change', function () { Rules.setAuto(st, auto.checked); syncSlider(); draw(); });
+  canvas.addEventListener('pointerdown', doJump);
+  document.addEventListener('keydown', function (e) {
+    if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); if (!e.repeat) doJump(); }
+    else if (e.code === 'Enter' && st.status === 'crashed') { e.preventDefault(); doRestart(); }
+  });
+
+  showOverlay('按「开始」或空格');
+  draw();
+  requestAnimationFrame(frame);
+  window.DinoGame = { state: st, Rules: Rules };
+})();
+</script>
+</body>
+</html>
