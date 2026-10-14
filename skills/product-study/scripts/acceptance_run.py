@@ -19,6 +19,12 @@ what people will actually open, not the local file. Python 3.8+, standard librar
 """
 import argparse, json, os, subprocess, sys, tempfile, time, urllib.request
 
+for _stream in (sys.stdout, sys.stderr):  # Windows consoles default to cp1252; the table has CJK and ✓
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # noqa: BLE001
+        pass
+
 
 def width(s):
     return sum(2 if ord(c) > 255 else 1 for c in str(s))
@@ -52,7 +58,7 @@ def find_checks(site_dir):
 
 
 def run_checks(checks, runner, html_path):
-    r = subprocess.run([runner, checks, html_path], capture_output=True, text=True)
+    r = subprocess.run([runner, checks, html_path], capture_output=True, encoding="utf-8", errors="replace")
     rows = []
     for line in (r.stdout or "").splitlines():
         line = line.strip()

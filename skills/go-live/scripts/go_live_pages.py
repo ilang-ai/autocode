@@ -17,6 +17,12 @@ What the user sees is printed with a leading ">> "; everything else is the log.
 """
 import argparse, http.server, json, os, shutil, socket, subprocess, sys, threading, time, urllib.request
 
+for _stream in (sys.stdout, sys.stderr):  # Windows consoles default to cp1252
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # noqa: BLE001
+        pass
+
 SAY = lambda s: print(">> " + s, flush=True)
 LOG = lambda s: print("   " + s, flush=True)
 
@@ -35,7 +41,7 @@ class GitHub:
             LOG("$ " + " ".join(cmd) + "   (simulated)")
             return self._fake(cmd)
         LOG("$ " + " ".join(cmd))
-        r = subprocess.run(cmd, capture_output=capture, text=True)
+        r = subprocess.run(cmd, capture_output=capture, encoding="utf-8", errors="replace")
         if check and r.returncode != 0:
             raise RuntimeError((r.stderr or r.stdout).strip())
         return (r.stdout or "").strip()
@@ -137,7 +143,7 @@ def step_enable_pages(gh, login, name):
     body = json.dumps({"source": {"branch": "main", "path": "/"}})
     gh.run("gh", "api", "-X", "POST", "repos/%s/%s/pages" % (login, name), "--input", "-", check=False) if gh.simulate else \
         subprocess.run(["gh", "api", "-X", "POST", "repos/%s/%s/pages" % (login, name), "--input", "-"],
-                       input=body, text=True, capture_output=True)
+                       input=body, encoding="utf-8", errors="replace", capture_output=True)
     url = "https://%s.github.io/%s/" % (login, name)
     for i in range(30):
         info = json.loads(gh.run("gh", "api", "repos/%s/%s/pages" % (login, name), check=False) or "{}")
@@ -165,7 +171,7 @@ def step_acceptance(site_dir, url):
     runner = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "product-study", "scripts", "acceptance_run.py")
     if not os.path.exists(runner):
         return None, "acceptance_run.py not found; skipped"
-    r = subprocess.run([sys.executable, runner, site_dir, "--url", url], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, runner, site_dir, "--url", url], capture_output=True, encoding="utf-8", errors="replace")
     return r.returncode == 0, (r.stdout or r.stderr).strip()
 
 
