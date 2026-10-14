@@ -1,7 +1,7 @@
 {
   "title": "AutoCode: 49 agent skills from a spoken request, or a product you admire, to a deployed URL",
   "description": "<p>AutoCode is a skill pack that takes a plain-language request through building, testing and deployment in a single session and returns a live URL. Say \"I want something like X\" and its product-study skill studies X from public pages only, writes a blueprint in which every line carries its source and a confidence level, cuts an MVP small enough to build in one session, and builds it, learning the structure while designing its own look. One command, python3 autocode.py setup (Python 3.8+, no dependencies), detects the coding agents on the machine and installs the 49 skills and a managed persona block into any of them, including Claude Code, Codex, Hermes, OpenCode, Gemini CLI, Cursor, Windsurf, Trae, CodeBuddy, Qwen Code and OpenClaw; doctor and uninstall leave the user's own edits intact. AutoCode uses the iLang v5.0 judgment layer to decide when to stop and ask, keeps deployment secrets out of the model context, and ships a release gate that checks every manifest, version and installer scenario before a release.</p>",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "upload_type": "software",
   "license": "MIT",
   "access_right": "open",

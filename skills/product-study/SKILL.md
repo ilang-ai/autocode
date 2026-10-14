@@ -1,7 +1,7 @@
 ---
 name: product-study
 description: Study an existing product from its public pages and turn it into an evidence-backed blueprint plus an MVP cut that AutoCode can build and ship. Use this whenever the user wants something "like X", "similar to X", "my own version of X", "a clone of X", names a competitor they admire, or pastes a product URL and asks to build it — even when they never say "research" or "analyze". Public sources only (official site, docs, pricing, changelog, public repos, app-store listings, public reviews); no logins, captures, decompiling, or copying of code, copy, images or brand.
-version: 6.0.1
+version: 6.1.0
 ---
 
 ::GENE{product-study|conf:confirmed|scope:global}
@@ -9,7 +9,12 @@ version: 6.0.1
   T:public_pages_only
   T:every_claim_has_source_and_confidence
   T:end_with_an_mvp_the_agent_can_build_in_one_session
+  T:classify_target_first|saas_with_public_pages|open_source_project|app_with_store_listing|undocumented
+  T:acceptance_line=user_does+should_see+machine_checks
+  T:mvp_names_learned_rules_vs_own_decisions
+  T:verify_runs_before_go_live_and_again_on_the_live_url|tool:scripts/acceptance_run.py
   A:reverse_engineer_or_capture⇒refuse_and_continue_with_public_pages
+  A:report_tests_passed⇒show_expected_vs_actual_table
   A:copy_ui_copy_images_brand_code⇒describe_structure_instead
   A:present_blueprint_as_the_product⇒it_is_a_map_the_build_comes_next
 
@@ -57,6 +62,13 @@ python3 $SKILL/scripts/fetch_public.py links <slug> S3 [--grep docs]       # sam
 python3 $SKILL/scripts/fetch_public.py github <slug> owner/repo             # public repo README + license (if open source)
 python3 $SKILL/scripts/fetch_public.py list <slug>
 ```
+
+Decide first which kind of thing the user pointed at; the sources differ:
+
+- **SaaS with public pages** (Linear, Notion…): pricing, docs, changelog, help center, reviews. The live app itself is usually a login wall; the docs are the map.
+- **Open-source project** (a small game, a CLI, a template): the public repo *is* the map. `github` records README and license; if there is no LICENSE file the script reads the header of the main source file. Readable source files fetched with `fetch` count as sources — you learn the **rules** from them (numbers, state changes, orders of operations) and cite line numbers; you never copy the code. Copyleft (GPL/AGPL): architecture only.
+- **App with a store listing**: the store page and help center; no binaries.
+- **Undocumented**: say so, write a thin blueprint with low confidence, and let the MVP carry more `{guess}`.
 
 Run `discover` on the homepage **and** on the docs root; docs navigation is
 often rendered by JavaScript, so if no concepts / data-model page shows up, try
@@ -133,6 +145,14 @@ the user can click, and acceptance checks a non-technical user can perform.
 Those limits are what let an AI agent finish and ship in one sitting; a bigger
 v1 is where projects die.
 
+Section 9 has two lines the gate reads strictly. **Acceptance** is three to five
+lines, each in three parts separated by `->` (or `→`): *what the user does* -> *what
+they should see* -> *what a machine can check* (write `manual` when nothing can). The
+third part is what `acceptance_run.py` will verify, so write it as a number or a state,
+not an adjective. **Learned vs own** names the rules and numbers taken from the target
+(each with its `[S#]`) and says in one line that everything else — look, layout,
+copy, defaults — is our own design. Both lines travel into `mvp.md` and into the code.
+
 ## Step 4 — Gate it
 
 ```bash
@@ -150,15 +170,37 @@ gate, and do not edit the Sources section by hand.
 ## Step 5 — MVP hand-off
 
 ```bash
-python3 $SKILL/scripts/blueprint.py mvp <slug>        # writes mvp.md from sections 9 + 10
+python3 $SKILL/scripts/blueprint.py mvp <slug>        # writes mvp.md from sections 9 + 10, plus a Verify note
 ```
 
 Show the user, in their language: the one-paragraph summary (section 0), the
 MVP cut, and one line inviting them to cross out or add. Two decisions are theirs:
 the scope of v1 and anything that costs money. Everything else you decide.
 When they say go, `mvp.md` is the input to the build (plan-breakdown →
-build-scaffold → build-feature → go-live in AutoCode); the rest of the blueprint
-is context, not scope.
+build-scaffold → build-feature → Step 6 → go-live in AutoCode); the rest of the
+blueprint is context, not scope.
+
+While building, keep the rules (numbers, formulas, state changes) in one block that
+loads without a browser — in a web build, `<script id="rules">` with no DOM access —
+and tag the learned ones `[learned]` in the code. Everything else is rendering and is
+yours. This is what makes Step 6 possible.
+
+## Step 6 — Verify (before go-live, and again on the live URL)
+
+Next to the build, write a checks file, `acceptance.js` (node) or `acceptance.py`,
+that loads the rules block, performs the machine part of every acceptance line, and
+prints one JSON row per check: `{"id","check","expected","actual","ok"}`. Then:
+
+```bash
+python3 $SKILL/scripts/acceptance_run.py <site_dir>                 # local build: table of check / expected / actual / match
+python3 $SKILL/scripts/acceptance_run.py <site_dir> --url <live>    # after go-live: the same table against the served page
+```
+
+The runner exits non-zero on any mismatch; go-live refuses to continue on that. The
+table is what the user sees — never "tests passed". The acceptance lines a machine
+cannot check are handed to the user as actions to perform, in the hand-back. Worked
+run: `examples/dino/` (8/8 match, including a floating-point boundary the original
+has); the whole journey is written down in `methodology/see-it-ship-it.md`.
 
 ## Boundaries
 

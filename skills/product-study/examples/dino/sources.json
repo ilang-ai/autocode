@@ -1,0 +1,44 @@
+{
+  "slug": "dino",
+  "tool": "fetch_public.py 6.0.1",
+  "user_agent": "autocode-product-study/6.0.1 (+https://github.com/ilang-ai/autocode; public pages only)",
+  "policy": "public pages only; robots.txt honored; no login; no captures; no binaries",
+  "sources": [
+    {
+      "url": "https://github.com/wayou/t-rex-runner",
+      "fetched_at": "2026-10-14T00:09:49Z",
+      "final_url": "https://raw.githubusercontent.com/wayou/t-rex-runner/master/README.md",
+      "status": "ok",
+      "kind": "github",
+      "title": "GitHub wayou/t-rex-runner README",
+      "description": "",
+      "bytes": 119,
+      "sha256": "25f5671d666db10d51d115723b998ae8b8816cbc97d700d17cd4e0c262db6399",
+      "license": "unknown",
+      "repo_meta": {},
+      "id": "S1",
+      "file": "sources/S1.txt"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/wayou/t-rex-runner/gh-pages/index.js",
+      "fetched_at": "2026-10-14T00:10:00Z",
+      "final_url": "https://raw.githubusercontent.com/wayou/t-rex-runner/gh-pages/index.js",
+      "status": "ok",
+      "kind": "text",
+      "title": "/wayou/t-rex-runner/gh-pages/index.js",
+      "description": "",
+      "bytes": 90241,
+      "sha256": "867e8f6a2beca3d720b4884a556067cf32601a051e7882a86ce54e9ff47f1c86",
+      "id": "S2",
+      "file": "sources/S2.txt"
+    }
+  ],
+  "skipped": [
+    {
+      "url": "https://wayou.github.io/t-rex-runner/",
+      "fetched_at": "2026-10-14T00:09:58Z",
+      "status": "skipped",
+      "reason": "page has almost no readable text (53 chars); likely rendered by JavaScript or empty"
+    }
+  ]
+}

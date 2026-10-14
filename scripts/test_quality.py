@@ -148,6 +148,22 @@ for dp, ds, _ in os.walk(ROOT):
 r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "selftest.py")], capture_output=True, text=True)
 check("product-study selftest passes", r.returncode == 0, (r.stdout + r.stderr)[-400:])
 
+# ---- see-it-ship-it: methodology present, S5 runner self-tests, the dino example passes its gates
+meth = read("methodology/see-it-ship-it.md")
+stage_genes = ["see-it-ship-it", "S1-see", "S2-study", "S3-cut", "S4-build", "S5-verify", "S6-ship", "S7-hand-back"]
+check("methodology/see-it-ship-it.md declares the objective and the 8 genes",
+      "::OBJECTIVE{id:see-it-ship-it" in meth and all("::GENE{%s|" % g in meth for g in stage_genes),
+      [g for g in stage_genes if "::GENE{%s|" % g not in meth])
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "acceptance_run.py"), "--selftest"], capture_output=True, text=True)
+check("acceptance_run.py (S5-verify) selftest passes", r.returncode == 0, (r.stdout + r.stderr)[-300:])
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "blueprint.py"), "check", "dino", "--root", os.path.join(ROOT, "skills", "product-study", "examples")], capture_output=True, text=True)
+check("examples/dino blueprint passes the product-study gate", r.returncode == 0, (r.stdout + r.stderr)[-400:])
+dino_site = os.path.join(ROOT, "skills", "product-study", "examples", "dino", "site")
+check("examples/dino ships a rules block and a checks file", '<script id="rules">' in read(os.path.join(dino_site, "index.html")) and os.path.exists(os.path.join(dino_site, "acceptance.js")))
+if shutil.which("node"):
+    r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "acceptance_run.py"), dino_site], capture_output=True, text=True)
+    check("examples/dino acceptance: every machine check matches (node)", r.returncode == 0 and "8/8" in r.stdout, (r.stdout + r.stderr)[-400:])
+
 # ---- installer scenarios on a fake home
 def run(*argv):
     with captured() as out:

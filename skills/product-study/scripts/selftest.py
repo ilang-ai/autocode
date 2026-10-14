@@ -247,9 +247,11 @@ Acme Tracker is an issue tracker built around teams, with optional projects and 
 3. Projects and cycles
 
 **Acceptance (v1 is done when):**
-- a member can sign in and see their team
-- an issue can be created, moved to done, and commented on
-- a cycle shows its open and closed issues
+1. user signs in -> sees the task list -> machine checks: GET /tasks returns 200 after login
+2. user presses C and types a title -> a new task appears at the top -> machine checks: task count +1
+3. user drags a task to Done -> it shows in the Done column -> machine checks: status field equals done
+
+**Learned vs own:** learned from the target: three statuses and keyboard-first creation [S1]; own: look, layout, copy, defaults.
 
 ## 10. What we will not copy
 

@@ -85,7 +85,7 @@ TODO
 The hand-off to the build phase. Only the core tier survives, sized for what an AI agent can build and deploy in one session:
   at most 5 core objects, at most 7 screens, no third-party integrations in v1, one auth method, one deployment target.
 Each line is a decision, not a claim: no source tags needed. Keep the user's goal from the header in view; the MVP serves their users, not the original's.
-Keep the bold labels starting with the English words Objects / Screens / Acceptance (add a translation after them if you write in another language):
+Keep the bold labels starting with the English words Objects / Screens / Acceptance / Learned (add a translation after them if you write in another language):
 the gate finds them by those words. List items separated by commas or 、; a comma inside parentheses does not split an item.
 -->
 
@@ -102,7 +102,12 @@ the gate finds them by those words. List items separated by commas or 、; a com
 2. TODO
 3. TODO
 
-**Acceptance (v1 is done when):** TODO three to five checks a non-technical user can perform
+**Acceptance (v1 is done when):** three to five lines, each in three parts separated by `->`: what the user does -> what they should see -> what a machine can check (write `manual` if nothing can)
+1. TODO user does -> should see -> machine checks
+2. TODO user does -> should see -> machine checks
+3. TODO user does -> should see -> machine checks
+
+**Learned vs own (学来的 / 自己定的):** TODO the rules and numbers taken from the target, each with its [S#]; one line saying everything else (look, layout, copy, defaults) is our own design
 
 ## 10. What we will not copy
 

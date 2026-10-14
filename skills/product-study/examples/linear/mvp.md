@@ -24,11 +24,15 @@ Source blueprint: blueprint.md (same folder). Build only what is below; the rest
 7. 设置与上线：邀请成员（生成邀请链接）、改团队名与标识；打包为一个 Docker 容器部署到一台服务器，用 HTTPS 访问。
 
 **Acceptance (v1 is done when):**
-- 一名成员用邮箱和密码登录后，能看到团队的工单列表。
-- 全程不用鼠标：按 C 新建一条工单，用 j/k 选中它，按 Enter 打开，再用快捷键把状态改为已完成。
-- 在一条工单下留评论并 @ 另一名成员，对方刷新后能看到评论。
-- 新建一个项目，把三条工单加入，项目页显示正确的完成比例。
-- 开启两周一轮的周期，把工单放进当前周期；周期到期后，未完成的工单出现在下一个周期里。
+1. 用户做：用邮箱和密码登录 → 应看到：团队的工单列表 → 机器验：登录后请求工单列表返回 200 且条数等于种子数据。
+2. 用户做：全程不用鼠标，按 C 新建、j/k 选中、Enter 打开、快捷键改为已完成 → 应看到：这条工单出现在「已完成」 → 机器验：该工单 status 字段为 done，且过程中没有鼠标事件。
+3. 用户做：在一条工单下留评论并 @ 另一名成员 → 应看到：对方刷新后看到评论 → 机器验：评论记录含被 @ 成员的 id。
+4. 用户做：新建一个项目，加入三条工单，完成其中一条 → 应看到：项目页显示 1/3 → 机器验：完成比例字段等于 0.333。
+5. 用户做：开启两周一轮的周期，放入工单，让周期到期 → 应看到：未完成的工单出现在下一个周期 → 机器验：到期后未完成工单的 cycle 字段指向下一周期。
+
+**Learned vs own 学来的 / 自己定的:**
+- 学来的：工单状态流、键盘优先的新建和导航（C / j / k / Enter）、周期（cycle）到期自动顺延、项目完成比例的概念 [S1][S2]。
+- 自己定的：界面、配色、布局、全部文案、默认快捷键以外的交互、数据库结构、部署方式。
 
 
 ## What we will not copy
@@ -37,3 +41,11 @@ Source blueprint: blueprint.md (same folder). Build only what is below; the rest
 - 原产品的文案、截图、图片、Logo，以及属于商标的产品名和功能名。
 - 原产品任何仓库或前端包里的代码（本次研究没有涉及任何代码仓库，也没有读取任何打包代码）。
 - 任何不在公开页面上的东西：没有使用账号内页面、抓包、反编译或泄露材料。
+
+
+## Verify
+
+Keep the rules (numbers, formulas, state changes) in one block the acceptance runner can load without a browser; tag the learned ones [learned].
+Ship a checks file next to the build (acceptance.js or acceptance.py) that prints one JSON row per machine check; run it with
+`python3 <product-study>/scripts/acceptance_run.py <site_dir>` before go-live and again with `--url <live url>` after. The table it prints is what the user sees.
+The remaining checks are actions the user performs; list them as actions, never as 'tests passed'.

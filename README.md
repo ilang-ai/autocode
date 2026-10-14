@@ -26,7 +26,7 @@ license: mit
 ### You say it. AutoCode ships it.
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v6.0.1](https://img.shields.io/badge/version-6.0.1-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![v6.1.0](https://img.shields.io/badge/version-6.1.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
 [![Skills](https://img.shields.io/badge/Skills-49-blueviolet)](#-49-skills)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
 [![Platforms](https://img.shields.io/badge/Platforms-any%20SKILL.md%20agent-blue)](#-install)
@@ -275,7 +275,14 @@ changelog, public API docs, open-source repos, app-store listings, public review
 It refuses login areas, captures, decompiling and bulk scraping on its own, and its gate
 rejects a blueprint that cites nothing, copies a sentence, or embeds the original's
 images, logo or code. The interface, copy, brand and code of your product are yours.
-A finished example: [`skills/product-study/examples/linear/`](skills/product-study/examples/linear/).
+A finished study: [`skills/product-study/examples/linear/`](skills/product-study/examples/linear/).
+A complete run, study → build → verify → ship: [`skills/product-study/examples/dino/`](skills/product-study/examples/dino/) — a non-technical
+ask ("a dinosaur game like that one, but I set the speed"), a one-file game whose rules are kept apart from its
+look, and an acceptance table the user can read (check / expected / actual / match, 8/8, rerun on the live URL).
+
+Before shipping, AutoCode runs that table, not "tests passed". A static build ships to GitHub Pages at no cost;
+if you have no GitHub account it walks you through signing up, and you approve the login in your own browser.
+The whole journey, as the rules AutoCode follows, is [`methodology/see-it-ship-it.md`](methodology/see-it-ship-it.md).
 
 ## 🧠 49 Skills
 
