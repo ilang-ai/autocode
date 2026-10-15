@@ -25,8 +25,8 @@ authors:
 repository-code: "https://github.com/ilang-ai/autocode"
 url: "https://github.com/ilang-ai/autocode"
 license: MIT
-version: "6.2.0"
-date-released: "2026-10-14"
+version: "6.2.1"
+date-released: "2026-10-15"
 keywords:
   - agent skills
   - deployment

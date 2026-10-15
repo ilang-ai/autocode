@@ -1,0 +1,8 @@
+AutoCode 6.2.0 setup plan (home: /home/hatch, platform: linux)
+== Muse (Meta) (muse)  [path conventions unverified: confirm in the agent's docs]
+   create        11 skill folder(s)
+   append-block  persona: /home/hatch/AGENTS.md
+   keep          tool: /home/hatch/.autocode/bin/scan-secrets.sh
+   backups of changed files go to /home/hatch/.autocode/backups/muse
+done: 12 change(s) applied; record in /home/hatch/.autocode/installed.json
+restart the agent so it reloads skills and instructions; then: python3 autocode.py doctor

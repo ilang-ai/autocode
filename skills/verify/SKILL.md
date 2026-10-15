@@ -1,7 +1,7 @@
 ---
 name: verify
 description: S5 of see-it-ship-it: prove it works before saying so. Silent quality checks after every feature, a full review of every file before save and deploy, and the acceptance table (check / expected / actual / match) run on the local build and again on the live URL. Never 'tests passed'.
-version: 6.2.0
+version: 6.2.1
 ---
 
 # verify — S5: show the table, never say "tests passed"

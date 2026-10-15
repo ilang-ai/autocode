@@ -130,6 +130,8 @@ def main():
         with captured() as out:
             rc = fp.main(["fetch", "acme", "--root", root, base + "/pricing"])
         check("re-fetch of same url is a no-op", "already collected as S2" in out.getvalue())
+        gi = open(os.path.join(root, "acme", "sources", ".gitignore"), encoding="utf-8").read()
+        check("sources/.gitignore ignores fetched texts", gi == "*\n!.gitignore\n", gi)
         # ---- blueprint init / check on template
         with captured():
             rc = bp.main(["init", "acme", "--root", root, "--product", "Acme Tracker", "--site", base, "--goal", "issue tracker for a ten-person team"])

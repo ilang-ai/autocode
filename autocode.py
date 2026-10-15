@@ -38,7 +38,7 @@ import os
 import shutil
 import sys
 
-VERSION = "6.2.0"
+VERSION = "6.2.1"
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENTS_FILE = os.path.join(HERE, "agents.json")
 SKILLS_SRC = os.path.join(HERE, "skills")
@@ -391,6 +391,7 @@ def cmd_doctor(args, ctx, agents):
 
         c("agent directory present", not p["marker"] or os.path.isdir(p["marker"]), "install or run the agent once so %s exists" % p["marker"])
         c("setup record present", bool(rec), "run: python3 autocode.py setup --client %s" % a["id"])
+        extra = []
         if p["skills_dir"]:
             missing, changed = [], []
             for name in source_skills():
@@ -402,7 +403,15 @@ def cmd_doctor(args, ctx, agents):
                     changed.append(name)
             c("all %d skills installed" % len(source_skills()), not missing, "missing %s; run setup" % ", ".join(missing[:5]))
             stale = [n for n in rec.get("skills", {}) if n not in source_skills() and os.path.isdir(rec["skills"][n].get("path", ""))]
-            c("no skills left over from an older version", not stale, "%s merged into other skills; run setup to retire them (edited ones are left for you)" % ", ".join(stale[:5]))
+            untouched, edited = [], []
+            for n in stale:
+                info = rec["skills"][n]
+                if info.get("sha") and sha_tree(info["path"]) != info["sha"]:
+                    edited.append(n)  # user touched it: setup left it in place on purpose
+                else:
+                    untouched.append(n)  # pristine (or no recorded hash): still a failure
+            c("no skills left over from an older version", not untouched, "%s merged into other skills; run setup to retire them" % ", ".join(untouched[:5]))
+            extra = ["kept from an older version because you edited it: %s (delete the folder yourself when ready)" % n for n in edited]
             c("installed skills match this version", not changed, "differs: %s; run setup to update (your edits are backed up)" % ", ".join(changed[:5]))
         if p["persona_file"]:
             present, current = False, False
@@ -418,7 +427,7 @@ def cmd_doctor(args, ctx, agents):
         healthy = all(x["ok"] for x in checks)
         healthy_all = healthy_all and healthy
         report["clients"].append({"id": a["id"], "display_name": a["display_name"], "verified_paths": bool(a.get("verified")),
-                                  "healthy": healthy, "paths": p, "checks": checks, "notes": a.get("notes", "")})
+                                  "healthy": healthy, "paths": p, "checks": checks, "extra": extra, "notes": a.get("notes", "")})
     report["healthy"] = healthy_all
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -428,6 +437,8 @@ def cmd_doctor(args, ctx, agents):
             print("== %s: %s%s" % (cl["display_name"], "healthy" if cl["healthy"] else "needs attention", "" if cl["verified_paths"] else "  [unverified path conventions]"))
             for x in cl["checks"]:
                 print("   %s %s%s" % ("ok  " if x["ok"] else "FAIL", x["check"], ("  -> " + x["fix"]) if x["fix"] else ""))
+            for n in cl.get("extra", []):
+                print("   %s %s" % ("note ", n))
         if not report["clients"]:
             print("no agents to check: run setup, or name one with --client")
     return 0 if healthy_all and report["clients"] else 1

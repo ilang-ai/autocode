@@ -213,6 +213,9 @@ for platform in ("linux", "darwin", "win32"):
         man = json.load(open(man_path, encoding="utf-8"))
         check("[%s] retired skill is forgotten, edited one still recorded" % platform,
               "old-untouched" not in man["clients"]["codex"]["skills"] and "old-edited" in man["clients"]["codex"]["skills"])
+        rc, out = run(*base, "doctor")
+        check("[%s] doctor notes (not fails) the user-edited leftover" % platform,
+              rc == 0 and "old-edited" in out and "note" in out and "old-untouched" not in out, out[-300:])
         # user edits an installed skill
         edited = os.path.join(tmp, ".codex", "skills", "hand-back", "SKILL.md")
         with open(edited, "a", encoding="utf-8") as f:

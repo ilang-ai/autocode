@@ -1,0 +1,20 @@
+claude_code  Claude Code                          not found
+             Alternative: install as a plugin (/plugin marketplace add ilang-ai/autocode). Use one route, not both, or the skills show up twice.
+codex        Codex (OpenAI)                       detected
+cursor       Cursor                               not found  (unverified paths)
+             Cursor has no global instructions file: paste the persona block (persona/AUTOCODE.md) into Settings → Rules for AI, or into a project's .cursor/rules.
+gemini_cli   Gemini CLI                           not found  (unverified paths)
+             Alternative: gemini extensions install https://github.com/ilang-ai/autocode.
+opencode     OpenCode                             not found  (unverified paths)
+hermes       Hermes Agent                         not found
+             Alternative: hermes skills install ilang-ai/autocode.
+codebuddy    CodeBuddy CLI (Tencent)              not found  (unverified paths)
+qwen_code    Qwen Code                            not found  (unverified paths)
+windsurf     Windsurf                             not found  (unverified paths)
+trae         Trae                                 not found  (unverified paths)
+             Trae keeps rules in its settings UI: paste persona/AUTOCODE.md there.
+openclaw     OpenClaw                             not found  (unverified paths)
+muse         Muse (Meta)                          detected  (unverified paths)
+             Muse Secure VM. Built-in skills are read-only under /opt/muse/skills; user skills load from ~/workspace/custom-skills. Session instructions come from ~/AGENTS.md, ~/SOUL.md, ~/IDENTITY.md and ~/USER.md; AutoCode's block goes into AGENTS.md. Evidence: docs/evidence/v6.2/C/.
+generic      Any SKILL.md-compatible agent (manual) manual
+             Copy the skills/ directory into your agent's skills path and paste persona/AUTOCODE.md into its system prompt or rules. Doubao / 豆包: 技能页「自定义新建技能」把每个 SKILL.md 贴进去; WorkBuddy 海外版: upload the skills folder in the Skills panel.

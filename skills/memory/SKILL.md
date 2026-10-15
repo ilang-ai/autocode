@@ -1,7 +1,7 @@
 ---
 name: memory
 description: Cross-cutting: what AutoCode remembers and how every session starts. Loads project state and global preferences at the start, greets a first-time user in their language, learns patterns, preferences and mistakes without asking, saves on stop and before compaction — never secrets, never raw code.
-version: 6.2.0
+version: 6.2.1
 ---
 
 # memory — every session starts from what we already know
