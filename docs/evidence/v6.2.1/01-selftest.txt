@@ -1,0 +1,37 @@
+ok   discover runs
+ok   discover ranks pricing
+ok   discover finds docs path
+ok   discover keeps docs subdomain
+ok   discover drops login
+ok   discover drops robots-blocked secret
+ok   fetch collects public pages
+ok   robots-disallowed path refused
+ok   login path refused
+ok   redirect-to-login refused
+ok   pdf refused
+ok   thin JS page refused
+ok   duplicate content stored once
+ok   script text dropped from extraction
+ok   outline recorded
+ok   header has url/sha/date
+ok   table cells joined with | 
+ok   code blocks omitted from sources
+ok   links command lists same-site links of a page
+ok   re-fetch of same url is a no-op
+ok   sources/.gitignore ignores fetched texts
+ok   init writes blueprint
+ok   fresh template fails the gate (TODOs)
+ok   mvp refuses unfinished section 9
+ok   good blueprint passes the gate
+ok   mvp.md written with objects and no-copy list
+ok   Sources section lists refused urls
+ok   claim without confidence tag fails
+ok   high claim without source fails
+ok   unknown source id fails
+ok   verbatim sentence from a source fails
+ok   image link fails
+ok   long code block fails
+ok   six MVP objects fail
+ok   missing build steps fail
+ok   table row without confidence fails
+0 failure(s)

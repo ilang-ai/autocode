@@ -1,7 +1,7 @@
 ---
 name: build
 description: S4 of see-it-ship-it: build one feature at a time, simplest stack that works, checkpoint before anything risky, rules kept apart from the look so they can be verified without a browser, learned numbers tagged. Includes first-session environment setup and running where you build.
-version: 6.2.0
+version: 6.2.1
 ---
 
 # build — S4: one feature at a time, rules apart from the look

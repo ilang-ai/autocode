@@ -1,7 +1,7 @@
 ---
 name: product-study
 description: Study an existing product from its public pages and turn it into an evidence-backed blueprint plus an MVP cut that AutoCode can build and ship. Use this whenever the user wants something "like X", "similar to X", "my own version of X", "a clone of X", names a competitor they admire, or pastes a product URL and asks to build it — even when they never say "research" or "analyze". Public sources only (official site, docs, pricing, changelog, public repos, app-store listings, public reviews); no logins, captures, decompiling, or copying of code, copy, images or brand.
-version: 6.2.0
+version: 6.2.1
 ---
 
 [PROTOCOL:iLang|v=5.0|layer=declaration]

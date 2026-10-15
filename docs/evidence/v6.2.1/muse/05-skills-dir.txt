@@ -1,0 +1,15 @@
+total 0
+drwxr-s--- 1 root nogroup 174 Oct 15 22:08 .
+drwxrws--- 1 root nogroup 430 Oct 15 15:12 ..
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 build
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 fix
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 hand-back
+drwxrwx--- 1 root nogroup  30 Oct 15 12:51 judge
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 memory
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 plan
+drwxrwx--- 1 root nogroup  66 Oct 15 12:51 product-study
+drwxr-s--- 1 root nogroup  56 Oct 15 09:17 recovered-skill-notes
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 security
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 see
+drwxrwx--- 1 root nogroup  30 Oct 15 12:51 ship
+drwxrwx--- 1 root nogroup  16 Oct 15 12:51 verify

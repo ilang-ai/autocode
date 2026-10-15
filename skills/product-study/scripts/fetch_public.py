@@ -41,7 +41,7 @@ import urllib.request
 import urllib.robotparser
 from html.parser import HTMLParser
 
-VERSION = "6.2.0"
+VERSION = "6.2.1"
 USER_AGENT = "autocode-product-study/%s (+https://github.com/ilang-ai/autocode; public pages only)" % VERSION
 DEFAULT_ROOT = os.path.join(".autocode", "study")
 MAX_BYTES = 3 * 1024 * 1024
@@ -292,6 +292,12 @@ class Study:
         self.src_dir = os.path.join(self.dir, "sources")
         self.index_path = os.path.join(self.dir, "sources.json")
         os.makedirs(self.src_dir, exist_ok=True)
+        # Fetched page texts are reference material for the blueprint and must
+        # never be committed: keep a .gitignore that ignores everything in sources/.
+        gi = os.path.join(self.src_dir, ".gitignore")
+        if not os.path.exists(gi):
+            with open(gi, "w", encoding="utf-8") as f:
+                f.write("*\n!.gitignore\n")
         if os.path.exists(self.index_path):
             with open(self.index_path, encoding="utf-8") as f:
                 self.index = json.load(f)
