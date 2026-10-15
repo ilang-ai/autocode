@@ -1,0 +1,9 @@
+AutoCode doctor 6.1.0  python 3.12.3  ok
+== Codex (OpenAI): healthy
+   ok   agent directory present
+   ok   setup record present
+   ok   all 49 skills installed
+   ok   installed skills match this version
+   ok   persona block present in AGENTS.md
+   ok   persona block is current (v6.1.0)
+   ok   secret scan installed

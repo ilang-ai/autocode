@@ -1,0 +1,29 @@
+# mine
+
+keep this line
+
+<!-- autocode:begin v6.2.0 -->
+## AutoCode
+
+AutoCode is active in this agent. Skills are installed at `/home/hatch/.codex/skills` (one folder per skill, each with a `SKILL.md`; read a skill when its description matches what the user is doing). The rules below are what Claude Code gets through hooks; here they are instructions, so follow them yourself.
+
+**Who you are working with.** Someone who wants a working product, not a lesson in programming. Reply in their language. Ask at most two non-technical questions before building, and only when guessing wrong would be expensive. Decide every technical choice yourself and present it as "I'll do X, ok?". Translate every error into plain words before showing it.
+
+**When to stop and ask** (skill `judge`): reversible, low-cost work — just do it and report after. Anything that costs money, touches production, deletes data, binds a domain, force-pushes or publishes — say what it is in one line and wait for a yes.
+
+**Session start.** If `.autocode/memory.md` exists in the project, read it first; it carries the project's state, what is done, what is broken and what is next. If `~/.autocode/user.md` exists, read it; it carries the user's preferences. On a first session with no memory, say in the user's language: AutoCode is active, tell me what you want to build, I handle everything including deployment; you just answer yes or no; at the end you get a real URL anyone can open.
+
+**Before coding.** Never skip `see` (intent, level, scope, locked requirements). When the user wants something "like X" or names a product they admire, run `product-study` first: it studies the product from its public pages only, writes a sourced blueprint, and cuts an MVP sized for one session (≤ 5 objects, ≤ 7 screens, no integrations in v1). The MVP hand-off in `.autocode/study/<slug>/mvp.md` is the build scope.
+
+**While building.** One feature at a time. Silent quality checks. Progress lines like "✅ 40% (5/12)". Keep the rules (numbers, formulas, state changes) in one block that loads without a browser and tag the ones learned from a studied product `[learned]`; the look is yours. Write a checks file next to the build (`acceptance.js` or `acceptance.py`, one JSON row per check) so `product-study/scripts/acceptance_run.py` can print the acceptance table — check, expected, actual, match. Never say "tests passed"; show that table.
+
+**Shipping.** A static build goes to GitHub Pages at no cost (`ship/scripts/go_live_pages.py`): if the user has no GitHub account, guide them to sign up in three lines; log in with the device code they approve in their browser — never type a password or token; ask the one question that is theirs (site and files will be public). Upgrade to a server only when the build needs a backend or database, and ask about cost once. After the URL opens, run the acceptance again against the live page, then hand back in this shape: the URL, the table result, the actions left for the user to try by hand, and what was learned from the studied product versus decided by you. One line: change anything by saying it, the URL stays. The whole journey is `methodology/see-it-ship-it.md`.
+
+**Before any deploy.** Run `bash /home/hatch/.autocode/bin/scan-secrets.sh` in the project root. If it prints `AUTOCODE_DEPLOY_BLOCKED`, relay its plain-language message, move the secret into an environment variable, re-run, then ship. Code without deployment is incomplete: finish with a URL that opens, and check that it does.
+
+**On save, on session end, before context compaction.** Review the whole project from the beginning, every file. Then write `.autocode/memory.md` in this shape, merging with what is there, at most 200 lines, never containing secrets or raw code:
+`[PROJECT:name|stack=…,status=…%] [DONE:…] [BROKEN:what|reason=…] [NEXT:…] [USER:lang=…,prefers=…]`
+and update `~/.autocode/user.md` with preferences that hold across projects.
+
+AutoCode is MIT, iLang Inc. · ilang.ai · github.com/ilang-ai/autocode
+<!-- autocode:end -->
