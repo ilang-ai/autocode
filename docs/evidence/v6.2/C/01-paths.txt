@@ -1,0 +1,37 @@
+=== ls -la ~ (dotfiles) ===
+-rw-r--r-- 1 nobody nogroup    6 Oct 15 11:53 .postgres-ready
+-rw-rw---- 1 root   nogroup  886 Sep 28 18:25 AGENTS.md
+-rw-rw---- 1 root   nogroup  113 Sep 28 18:25 HEARTBEAT.md
+-rw-rw---- 1 root   nogroup  276 Sep 28 18:25 IDENTITY.md
+-rw-rw---- 1 root   nogroup  734 Oct 15 12:46 MEMORY.md
+-rw-rw---- 1 root   nogroup 1000 Oct  5 10:40 PROACTIVE_PREFERENCES.md
+-rw-rw---- 1 root   nogroup  795 Sep 28 18:25 SOUL.md
+-rw-rw---- 1 root   nogroup  337 Sep 28 18:25 TOOLS.md
+-rw-rw---- 1 root   nogroup  982 Sep 30 02:21 USER.md
+-rw-rw---- 1 root   nogroup    0 Sep 28 18:25 runtime.lock
+
+=== /opt/muse/skills (built-in, outside $HOME) ===
+advertising-campaigns
+app-creation
+business-finance
+custom-connector-setup
+customer-outreach
+device-data
+documents
+email-management
+... (53 total)
+
+=== ~/workspace/custom-skills ===
+recovered-skill-notes
+
+=== key session files ===
+-rw-rw---- 1 root nogroup 886 Sep 28 18:25 /home/hatch/AGENTS.md
+-rw-rw---- 1 root nogroup 276 Sep 28 18:25 /home/hatch/IDENTITY.md
+-rw-rw---- 1 root nogroup 795 Sep 28 18:25 /home/hatch/SOUL.md
+-rw-rw---- 1 root nogroup 982 Sep 30 02:21 /home/hatch/USER.md
+
+=== how this host loads skills and instructions (recorded by the agent itself) ===
+- Built-in skills: /opt/muse/skills (absolute path, outside $HOME, read-only, platform-managed). No {home}-relative equivalent exists.
+- User skills: {home}/workspace/custom-skills.
+- Persistent session instructions: there is no single file; every turn injects {home}/AGENTS.md (workspace conventions), {home}/SOUL.md (persona), {home}/IDENTITY.md (assistant identity), {home}/USER.md (user profile), plus {home}/MEMORY.md. The closest single equivalent of AGENTS.md/SOUL.md is {home}/AGENTS.md.
+- Consequence for agents.json: skills_dir cannot be expressed with the {home} placeholder -> null (installer then emits a manual step, same pattern as cursor/trae entries).

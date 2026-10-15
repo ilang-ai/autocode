@@ -1,0 +1,16 @@
+AutoCode doctor 6.2.0  python 3.12.3  ok
+== Codex (OpenAI): needs attention
+   ok   agent directory present
+   ok   setup record present
+   ok   all 11 skills installed
+   FAIL no skills left over from an older version  -> celebrate merged into other skills; run setup to retire them (edited ones are left for you)
+   ok   installed skills match this version
+   ok   persona block present in AGENTS.md
+   ok   persona block is current (v6.2.0)
+   ok   secret scan installed
+             Copy the skills/ directory into your agent's skills path and paste persona/AUTOCODE.md into its system prompt or rules. Doubao / 豆包: 技能页「自定义新建技能」把每个 SKILL.md 贴进去; WorkBuddy 海外版 / Muse: upload the skills folder in the Skills panel.
+muse         Muse (Meta)                          manual  (unverified paths)
+             No {home}-relative skills dir: built-in skills live at /opt/muse/skills (platform-managed, read-only, outside $HOME); user skills at {home}/workspace/custom-skills. Session instructions are injected every turn from {home}/AGENTS.md, {home}/SOUL.md, {home}/IDENTITY.md and {home}/USER.md; AGENTS.md is the closest single equivalent of a persistent instructions file. skills_dir is null so the installer emits a manual step (same pattern as the cursor/trae entries).
+--- clients (muse) ---
+muse         Muse (Meta)                          manual  (unverified paths)
+             No {home}-relative skills dir: built-in skills live at /opt/muse/skills (platform-managed, read-only, outside $HOME); user skills at {home}/workspace/custom-skills. Session instructions are injected every turn from {home}/AGENTS.md, {home}/SOUL.md, {home}/IDENTITY.md and {home}/USER.md; AGENTS.md is the closest single equivalent of a persistent instructions file. skills_dir is null so the installer emits a manual step (same pattern as the cursor/trae entries).

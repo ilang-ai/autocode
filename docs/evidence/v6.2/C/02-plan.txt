@@ -1,0 +1,7 @@
+AutoCode 6.2.0 setup plan (home: /home/hatch, platform: linux)
+== Muse (Meta) (muse)  [path conventions unverified: confirm in the agent's docs]
+   manual        skills: No {home}-relative skills dir: built-in skills live at /opt/muse/skills (platform-managed, read-only, outside $HOME); user skills at {home}/workspace/custom-skills. Session instructions are injected every turn from {home}/AGENTS.md, {home}/SOUL.md, {home}/IDENTITY.md and {home}/USER.md; AGENTS.md is the closest single equivalent of a persistent instructions file. skills_dir is null so the installer emits a manual step (same pattern as the cursor/trae entries).
+   append-block  persona: /home/hatch/AGENTS.md
+   keep          tool: /home/hatch/.autocode/bin/scan-secrets.sh
+   backups of changed files go to /home/hatch/.autocode/backups/muse
+dry run: 1 change(s) would be made, nothing written
