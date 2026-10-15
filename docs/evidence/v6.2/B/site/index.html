@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小恐龙跑酷 · 可调速度</title>
+<style>
+  body { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f7f7f7; color: #333; text-align: center; margin: 0; padding: 24px 12px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.hint { color: #888; font-size: 13px; margin: 4px 0 12px; }
+  #wrap { display: inline-block; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; }
+  canvas { display: block; background: #fff; }
+  #panel { margin-top: 10px; font-size: 14px; }
+  #panel label { margin-right: 8px; }
+  #speedVal { display: inline-block; min-width: 44px; font-weight: bold; }
+  #score { font-variant-numeric: tabular-nums; }
+  #over { display: none; margin-top: 8px; font-size: 15px; }
+  #over b { color: #d33; }
+</style>
+</head>
+<body>
+<h1>小恐龙跑酷</h1>
+<p class="hint">空格 / ↑ / 点击画面 = 跳 · 速度滑杆自己调 · 撞到仙人掌按空格重开</p>
+<div id="wrap">
+  <canvas id="game" width="600" height="200"></canvas>
+  <div id="panel">
+    <label>速度 <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></label><span id="speedVal">1.0x</span>
+    <span style="margin-left:16px">分数 <span id="score">0</span></span>
+  </div>
+  <div id="over"><b>游戏结束</b> · 本局 <span id="finalScore">0</span> 分 · 按空格重开</div>
+</div>
+
+<script id="rules">
+// 小恐龙跑酷 · 纯规则块：无 DOM，可被 node 直接加载验证
+// 学来的数字标 [learned]（来源：docs/evidence/v6.2/B/sources.json 的 S3），其余为自己定的
+var DinoRules = (function () {
+  'use strict';
+  var GRAVITY = 0.6;            // [learned] S3 Runner.config.GRAVITY
+  var JUMP_VELOCITY = 12;       // [learned] S3 Runner.config.INITIAL_JUMP_VELOCITY
+  var BASE_SPEED = 6;           // [learned] S3 Runner.config.SPEED（初速）
+  var MAX_SPEED = 13;           // [learned] S3 Runner.config.MAX_SPEED（上限）
+  var SPEED_UP = 0.0012;        // [learned] S3 加速度数量级（原 ACCELERATION 0.001/帧）
+  var GAP_COEFF = 0.6;          // [learned] S3 障碍间距系数 GAP_COEFFICIENT
+  var MAX_ROW = 3;              // [learned] S3 MAX_OBSTACLE_LENGTH（连续障碍上限）
+  var GROUND_W = 600;           // 自己定的：画面宽度（像素）
+  var DINO_X = 60;              // 自己定的：小恐龙固定横坐标
+  var SCORE_PER_FRAME = 0.25;   // 自己定的：每帧基础得分
+
+  function createGame() {
+    var g = {
+      state: 'running',   // running | gameover
+      y: 0,               // 跳起高度（地面=0）
+      vy: 0,              // 垂直速度
+      speed: BASE_SPEED,  // 当前基础速度（随时间长大）
+      speedMultiplier: 1, // 用户滑杆倍率 0.5x~2x（自己定的）
+      score: 0,
+      frames: 0,
+      obstacleX: GROUND_W,      // 最近障碍横坐标
+      obstacleVelocity: BASE_SPEED
+    };
+    return g;
+  }
+
+  function jump(g) {
+    if (g.state !== 'running' || g.y > 0) return false;
+    g.vy = JUMP_VELOCITY;
+    return true;
+  }
+
+  function setSpeedMultiplier(g, m) {
+    g.speedMultiplier = m;
+    g.obstacleVelocity = g.speed * m;
+  }
+
+  function tick(g) {
+    if (g.state !== 'running') return;
+    // 跳跃物理
+    if (g.y > 0 || g.vy !== 0) {
+      g.vy -= GRAVITY;
+      g.y += g.vy;
+      if (g.y <= 0) { g.y = 0; g.vy = 0; }
+    }
+    // 随时间加速（学来的：越跑越快，有上限）
+    if (g.speed < MAX_SPEED) g.speed = Math.min(MAX_SPEED, g.speed + SPEED_UP);
+    g.obstacleVelocity = g.speed * g.speedMultiplier;
+    // 障碍靠近；飞出左边界后按间距系数生成下一个
+    g.obstacleX -= g.obstacleVelocity;
+    if (g.obstacleX < -40) {
+      var row = 1 + Math.floor(Math.random() * MAX_ROW);
+      g.obstacleX = GROUND_W + row * 90 * (1 / GAP_COEFF) + Math.random() * 200;
+    }
+    g.score += SCORE_PER_FRAME * g.speedMultiplier;
+    g.frames++;
+  }
+
+  // 碰撞由渲染层用包围盒判定后调用（规则只记状态）
+  function collide(g) { if (g.state === 'running') g.state = 'gameover'; }
+
+  function reset(g) {
+    g.state = 'running'; g.y = 0; g.vy = 0;
+    g.speed = BASE_SPEED; g.score = 0; g.frames = 0;
+    g.obstacleX = GROUND_W;
+    g.obstacleVelocity = g.speed * g.speedMultiplier;
+  }
+
+  return {
+    GRAVITY: GRAVITY, JUMP_VELOCITY: JUMP_VELOCITY,
+    BASE_SPEED: BASE_SPEED, MAX_SPEED: MAX_SPEED,
+    createGame: createGame, jump: jump,
+    setSpeedMultiplier: setSpeedMultiplier,
+    tick: tick, collide: collide, reset: reset
+  };
+})();
+if (typeof module !== 'undefined' && module.exports) { module.exports = DinoRules; }
+</script>
+<script>
+// 渲染层：只负责画画和输入，所有数字规则都走 DinoRules（自己定的外观）
+(function () {
+  var cv = document.getElementById('game');
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height, GROUND = H - 30;
+  var g = DinoRules.createGame();
+  var DINO_W = 34, DINO_H = 40, DINO_X = 60;
+  var CACTUS_W = 18, CACTUS_H = 36;
+  var legFrame = 0;
+
+  var speedInput = document.getElementById('speed');
+  var speedVal = document.getElementById('speedVal');
+  var scoreEl = document.getElementById('score');
+  var overEl = document.getElementById('over');
+  var finalScoreEl = document.getElementById('finalScore');
+  speedInput.addEventListener('input', function () {
+    var m = parseFloat(speedInput.value);
+    DinoRules.setSpeedMultiplier(g, m);
+    speedVal.textContent = m.toFixed(1) + 'x';
+  });
+
+  function doJump() {
+    if (g.state === 'gameover') { DinoRules.reset(g); overEl.style.display = 'none'; return; }
+    DinoRules.jump(g);
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); doJump(); }
+  });
+  cv.addEventListener('pointerdown', doJump);
+
+  function drawDino(x, yTop) {
+    ctx.fillStyle = '#444';
+    ctx.fillRect(x, yTop + 8, 26, 22);          // 身体
+    ctx.fillRect(x + 18, yTop, 16, 14);         // 头
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(x + 28, yTop + 4, 3, 3);        // 眼睛
+    ctx.fillStyle = '#444';
+    ctx.fillRect(x + 4, yTop + 12, 6, 8);        // 手臂
+    var lo = (legFrame % 20 < 10) ? 0 : 4;      // 腿交替
+    ctx.fillRect(x + 4, yTop + 30, 8, 10 - lo);
+    ctx.fillRect(x + 16, yTop + 30, 8, 6 + lo);
+    ctx.fillRect(x - 8, yTop + 14, 8, 6);        // 尾巴
+  }
+
+  function drawCactus(x) {
+    ctx.fillStyle = '#2e7d32';
+    ctx.fillRect(x, GROUND - CACTUS_H, CACTUS_W, CACTUS_H);
+    ctx.fillRect(x - 8, GROUND - CACTUS_H + 12, 8, 6);
+    ctx.fillRect(x - 8, GROUND - CACTUS_H + 6, 5, 12);
+    ctx.fillRect(x + CACTUS_W, GROUND - CACTUS_H + 16, 8, 6);
+    ctx.fillRect(x + CACTUS_W + 3, GROUND - CACTUS_H + 10, 5, 12);
+  }
+
+  var clouds = [{ x: 150, y: 40 }, { x: 400, y: 70 }];
+  function frame() {
+    DinoRules.tick(g);
+    if (g.state === 'running') legFrame++;
+    // 碰撞：小恐龙包围盒 vs 仙人掌包围盒
+    var dx0 = DINO_X, dx1 = DINO_X + DINO_W;
+    var dy0 = GROUND - DINO_H - g.y, dy1 = GROUND - g.y;
+    var cx0 = g.obstacleX, cx1 = g.obstacleX + CACTUS_W;
+    var cy0 = GROUND - CACTUS_H, cy1 = GROUND;
+    if (g.state === 'running' && dx0 < cx1 && dx1 > cx0 && dy0 < cy1 && dy1 > cy0) {
+      DinoRules.collide(g);
+      finalScoreEl.textContent = Math.floor(g.score);
+      overEl.style.display = 'block';
+    }
+    // 画
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#e8e8e8';
+    clouds.forEach(function (c) {
+      c.x -= g.obstacleVelocity * 0.2;
+      if (c.x < -40) c.x = W + Math.random() * 200;
+      ctx.beginPath(); ctx.ellipse(c.x, c.y, 24, 10, 0, 0, 7); ctx.fill();
+    });
+    ctx.fillStyle = '#999';
+    ctx.fillRect(0, GROUND, W, 2);
+    drawCactus(g.obstacleX);
+    drawDino(DINO_X, GROUND - DINO_H - g.y);
+    scoreEl.textContent = Math.floor(g.score);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
