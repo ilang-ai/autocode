@@ -1,0 +1,9 @@
+验收 · 本地 index.html
+#  检查 check                预期 expected                  实际 actual                       结果
+1  按空格小恐龙跳起再落地    跳起(最高点>0)并落回地面(y=0)  jumped=true,最高点=114.0,落地y=0  ✓ 一致
+2  速度滑杆拖到 2x 障碍变快  障碍速度 6 -> 12               障碍速度 6 -> 12                  ✓ 一致
+3  撞上仙人掌显示游戏结束    state=gameover                 state=gameover                    ✓ 一致
+4  按空格重开新的一局        score=0,state=running          score=0,state=running             ✓ 一致
+5  不操作跑 5 秒分数上涨     score>0,state=running          score=75.0,state=running          ✓ 一致
+
+5/5 一致 (5/5 match)

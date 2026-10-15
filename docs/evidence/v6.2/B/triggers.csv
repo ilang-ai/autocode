@@ -1,0 +1,16 @@
+序号,时间,技能,触发原因,用户当时看到的那句话
+1,2026-10-15T05:00Z,see,读 SKILL.md；S1 用户点名要仿的产品 -> 走 product-study,第 2 行（研究 framing）
+2,2026-10-15T05:00Z,product-study,读 SKILL.md；S2 用户说"像 X" -> 从公开页面研究,第 2 行（研究 framing）
+3,2026-10-15T05:01Z,product-study,跑 fetch_public.py github dino wayou/t-rex-runner；取开源目标的 README+LICENSE,研究中（未打扰用户）
+4,2026-10-15T05:01Z,product-study,跑 fetch_public.py fetch；取仓库文件树、游戏源码 index.js、Wikipedia 词条学规则数字,研究中（未打扰用户）
+5,2026-10-15T05:03Z,product-study,跑 blueprint.py init/check/sources/mvp；门禁 28/28，写出 mvp.md,第 3 行（研究完成+第一版方案）
+6,2026-10-15T05:03Z,plan,读 SKILL.md；S3 以 mvp.md 为计划输入,第 3 行（第一版方案）
+7,2026-10-15T05:04Z,build,读 SKILL.md；S4 单文件静态站，规则块与渲染分离,第 4 行（✅ 做好了）
+8,2026-10-15T05:05Z,verify,读 SKILL.md；S5 上线前先出机器验收表,第 4 行（验收 5/5）
+9,2026-10-15T05:05Z,verify,跑 acceptance_run.py 本地；5/5 一致 -> docs/evidence/v6.2/B/acceptance-local.txt,第 4 行（验收 5/5）
+10,2026-10-15T05:07Z,judge,读 SKILL.md；cross-cutting 公开仓库=M3 当面确认；全程只问这一个非技术问题,第 5 行（公开问题）
+11,2026-10-15T05:08Z,ship,读 SKILL.md；S6 静态站 -> GitHub Pages 零成本上线,第 7 行（上线中）
+12,2026-10-15T05:08Z,security,跑 scripts/scan-secrets.sh（ship 上线前扫描）；结果 AUTOCODE_DEPLOY_SAFE,（静默检查）
+13,2026-10-15T05:09Z,ship,跑 go_live_pages.py（不带 --simulate）；新建公开仓库 adsorgcn/autocode-dino-20261015 并开 Pages,第 7 行（上线了+网址）
+14,2026-10-15T05:10Z,verify,跑 acceptance_run.py --url 线上重跑；5/5 一致 -> docs/evidence/v6.2/B/acceptance-live.txt,第 7 行（线上验收 5/5）
+15,2026-10-15T05:10Z,hand-back,读 SKILL.md；S7 固定格式交回：网址+表+手点动作+学来/自己定,第 7 行（交回全文）

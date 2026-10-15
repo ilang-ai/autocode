@@ -1,0 +1,89 @@
+{
+  "slug": "dino",
+  "tool": "fetch_public.py 6.2.0",
+  "user_agent": "autocode-product-study/6.2.0 (+https://github.com/ilang-ai/autocode; public pages only)",
+  "policy": "public pages only; robots.txt honored; no login; no captures; no binaries",
+  "sources": [
+    {
+      "url": "https://github.com/wayou/t-rex-runner",
+      "fetched_at": "2026-10-15T05:01:14Z",
+      "final_url": "https://raw.githubusercontent.com/wayou/t-rex-runner/gh-pages/README.md",
+      "status": "ok",
+      "kind": "github",
+      "title": "GitHub wayou/t-rex-runner README",
+      "description": "",
+      "bytes": 1909,
+      "sha256": "1e116c68c9187aa69703386b29663ae7e29636b148a505960d4527077c2340bd",
+      "license": "BSD-3-Clause",
+      "repo_meta": {
+        "full_name": "wayou/t-rex-runner",
+        "description": "the t-rex runner game extracted from chromium",
+        "homepage": "https://chromedino.com",
+        "language": "JavaScript",
+        "stargazers_count": 2196,
+        "forks_count": 1285,
+        "default_branch": "gh-pages",
+        "topics": [
+          "chrome",
+          "easter-egg",
+          "google",
+          "javascript",
+          "t-rex-runner"
+        ],
+        "archived": false,
+        "pushed_at": "2024-07-28T08:43:00Z",
+        "license": "BSD-3-Clause"
+      },
+      "id": "S1",
+      "file": "sources/S1.txt"
+    },
+    {
+      "url": "https://api.github.com/repos/wayou/t-rex-runner/git/trees/HEAD?recursive=1",
+      "fetched_at": "2026-10-15T05:01:31Z",
+      "final_url": "https://api.github.com/repos/wayou/t-rex-runner/git/trees/HEAD?recursive=1",
+      "status": "ok",
+      "kind": "text",
+      "title": "/repos/wayou/t-rex-runner/git/trees/HEAD",
+      "description": "",
+      "bytes": 5582,
+      "sha256": "83c69ebf7963b4c3031c70e1085c65ca1058fe8fcd0490c793c131ff8645a322",
+      "id": "S2",
+      "file": "sources/S2.txt"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/wayou/t-rex-runner/HEAD/index.js",
+      "fetched_at": "2026-10-15T05:01:37Z",
+      "final_url": "https://raw.githubusercontent.com/wayou/t-rex-runner/HEAD/index.js",
+      "status": "ok",
+      "kind": "text",
+      "title": "/wayou/t-rex-runner/HEAD/index.js",
+      "description": "",
+      "bytes": 90241,
+      "sha256": "867e8f6a2beca3d720b4884a556067cf32601a051e7882a86ce54e9ff47f1c86",
+      "id": "S3",
+      "file": "sources/S3.txt"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Dinosaur_Game",
+      "fetched_at": "2026-10-15T05:01:39Z",
+      "final_url": "https://en.wikipedia.org/wiki/Dinosaur_Game",
+      "status": "ok",
+      "kind": "html",
+      "title": "Dinosaur Game - Wikipedia",
+      "description": "",
+      "bytes": 329666,
+      "sha256": "12007acab5488ef9b537c79c24dd1466281faf590415b769f6847a2e95ccb3c8",
+      "id": "S4",
+      "file": "sources/S4.txt",
+      "links_file": "sources/S4.links.txt"
+    }
+  ],
+  "skipped": [
+    {
+      "url": "https://api.github.com/wayou/t-rex-runner/git/trees/HEAD",
+      "fetched_at": "2026-10-15T05:01:27Z",
+      "status": "skipped",
+      "reason": "HTTP 404"
+    }
+  ]
+}
