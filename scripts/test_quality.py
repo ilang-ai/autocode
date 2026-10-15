@@ -53,7 +53,7 @@ def captured():
 
 # ---- skills and frontmatter
 skills = ac.source_skills()
-check("skills folder has at least 40 skills", len(skills) >= 40, len(skills))
+check("skills folder has exactly 11 skills (7 stages + 4 cross-cutting)", len(skills) == 11, sorted(skills))
 bad_fm = []
 for name in skills:
     text = read(os.path.join("skills", name, "SKILL.md"))
@@ -156,6 +156,12 @@ check("methodology/see-it-ship-it.md declares the objective and the 8 genes",
       [g for g in stage_genes if "::GENE{%s|" % g not in meth])
 r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "acceptance_run.py"), "--selftest"], capture_output=True, encoding="utf-8", errors="replace")
 check("acceptance_run.py (S5-verify) selftest passes", r.returncode == 0, (r.stdout + r.stderr)[-300:])
+r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "judge", "scripts", "f_v5.py"), "--selftest"], capture_output=True, encoding="utf-8", errors="replace")
+check("judge: f_v5 reference function reproduces the canonical cases", r.returncode == 0, (r.stdout + r.stderr)[-400:])
+no_proto = [s for s in skills if "[PROTOCOL:iLang|v=5.0" not in read(os.path.join("skills", s, "SKILL.md"))]
+check("every skill declares the iLang v5.0 protocol line", not no_proto, no_proto)
+bad_ex = [s for s in skills if "::EXAMPLE{" in read(os.path.join("skills", s, "SKILL.md"))]
+check("no skill uses the unregistered ::EXAMPLE block (use ::SAY{@A→@B}{...})", not bad_ex, bad_ex)
 r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "skills", "product-study", "scripts", "blueprint.py"), "check", "dino", "--root", os.path.join(ROOT, "skills", "product-study", "examples")], capture_output=True, encoding="utf-8", errors="replace")
 check("examples/dino blueprint passes the product-study gate", r.returncode == 0, (r.stdout + r.stderr)[-400:])
 dino_site = os.path.join(ROOT, "skills", "product-study", "examples", "dino", "site")
@@ -188,12 +194,31 @@ for platform in ("linux", "darwin", "win32"):
         check("[%s] second setup is a no-op" % platform, rc == 0 and "nothing to do" in out, out[-200:])
         agents_md = open(os.path.join(tmp, ".codex", "AGENTS.md"), encoding="utf-8").read()
         check("[%s] user's own rules kept above the block" % platform, agents_md.startswith("# mine\n\nkeep this line") and agents_md.count(ac.BEGIN) == 1)
+        # upgrade from an older version: two skills we installed back then are no longer shipped
+        man_path = os.path.join(tmp, ".autocode", "installed.json")
+        man = json.load(open(man_path, encoding="utf-8"))
+        old_untouched = os.path.join(tmp, ".codex", "skills", "old-untouched"); os.makedirs(old_untouched)
+        open(os.path.join(old_untouched, "SKILL.md"), "w", encoding="utf-8").write("old\n")
+        old_edited = os.path.join(tmp, ".codex", "skills", "old-edited"); os.makedirs(old_edited)
+        open(os.path.join(old_edited, "SKILL.md"), "w", encoding="utf-8").write("old\n")
+        man["clients"]["codex"]["skills"]["old-untouched"] = {"path": old_untouched, "sha": ac.sha_tree(old_untouched)}
+        man["clients"]["codex"]["skills"]["old-edited"] = {"path": old_edited, "sha": ac.sha_tree(old_edited)}
+        json.dump(man, open(man_path, "w", encoding="utf-8"))
+        open(os.path.join(old_edited, "SKILL.md"), "a", encoding="utf-8").write("user tweak\n")
+        rc, out = run(*base, "doctor")
+        check("[%s] doctor reports skills left over from an older version" % platform, rc == 1 and "old-untouched" in out, out[-300:])
+        rc, out = run(*base, "setup", "--yes")
+        check("[%s] setup retires the untouched old skill and leaves the edited one" % platform,
+              rc == 0 and not os.path.exists(old_untouched) and os.path.exists(old_edited) and "retire" in out, out[-400:])
+        man = json.load(open(man_path, encoding="utf-8"))
+        check("[%s] retired skill is forgotten, edited one still recorded" % platform,
+              "old-untouched" not in man["clients"]["codex"]["skills"] and "old-edited" in man["clients"]["codex"]["skills"])
         # user edits an installed skill
-        edited = os.path.join(tmp, ".codex", "skills", "celebrate", "SKILL.md")
+        edited = os.path.join(tmp, ".codex", "skills", "hand-back", "SKILL.md")
         with open(edited, "a", encoding="utf-8") as f:
             f.write("\nmy tweak\n")
         rc, out = run(*base, "doctor")
-        check("[%s] doctor flags an edited skill" % platform, rc == 1 and "celebrate" in out, out[-300:])
+        check("[%s] doctor flags an edited skill" % platform, rc == 1 and "hand-back" in out, out[-300:])
         rc, out = run(*base, "setup", "--dry-run")
         check("[%s] setup treats the edited skill as a conflict, not an overwrite" % platform, "conflict" in out and "1 skill folder" in out, out[-400:])
         rc, out = run(*base, "setup", "--yes", "--force")

@@ -9,8 +9,8 @@
     {
       "name": "autocode",
       "source": "./",
-      "version": "6.1.0",
-      "description": "49 skills. See a product you like → sourced blueprint → MVP → deployed URL, in one session. I-Lang v5.0 judgment + pre-deploy secret scan."
+      "version": "6.2.0",
+      "description": "11 skills. See a product you like → sourced blueprint → MVP → deployed URL, in one session. I-Lang v5.0 judgment + pre-deploy secret scan."
     }
   ]
 }

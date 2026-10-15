@@ -1,8 +1,10 @@
 ---
 name: security
 description: Auto-apply security basics and block deploys that would leak secrets. Never ask the user about security choices — just do it, and run a real secret scan before going live.
-version: 5.0.0
+version: 6.2.0
 ---
+
+[PROTOCOL:iLang|v=5.0|layer=declaration]
 ::PRIOR{completion:assume_incomplete|authority:developer}
 ::PRIOR{execution:act_when_safe|authority:developer}
 
@@ -29,7 +31,7 @@ version: 5.0.0
 # deploy: relay the plain-language warning, move the value to an env var, re-scan,
 # then ship. This turns security from a promise into an actual gate.
 
-::EXAMPLE{
+::SAY{@AUTOCODE→@USER}{
   user_asks: "安全吗?"
   output: "我做了防攻击处理（防注入、防跨站、密码加密），上线前也扫了一遍确认没有把密钥写死在代码里。正常使用不用担心。"
 }

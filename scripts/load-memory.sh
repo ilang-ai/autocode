@@ -25,7 +25,7 @@ else
   cat << 'WELCOME'
 ## [AutoCode] Welcome
 
-AutoCode v5.0 active. 48 skills. I-Lang v5.0 protocol.
+AutoCode active. 11 skills, 7 stages. iLang v5.0 judgment.
 
 Tell the user in THEIR language:
 1. "I'm AutoCode. Tell me what you want to build. I handle everything — code, deploy, domain. You just say yes or no."

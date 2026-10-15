@@ -26,8 +26,8 @@ license: mit
 ### You say it. AutoCode ships it.
 
 [![MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![v6.1.0](https://img.shields.io/badge/version-6.1.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
-[![Skills](https://img.shields.io/badge/Skills-49-blueviolet)](#-49-skills)
+[![v6.2.0](https://img.shields.io/badge/version-6.2.0-blue.svg)](https://github.com/ilang-ai/autocode/releases)
+[![Skills](https://img.shields.io/badge/Skills-11-blueviolet)](#-11-skills-7-stages)
 [![Zero Deps](https://img.shields.io/badge/Dependencies-0-brightgreen)](#-install)
 [![Platforms](https://img.shields.io/badge/Platforms-any%20SKILL.md%20agent-blue)](#-install)
 [![iLang Spec](https://img.shields.io/badge/iLang-Spec-d4a858)](https://github.com/ilang-ai/ilang-spec)
@@ -66,7 +66,7 @@ python3 autocode.py doctor         # read-only health check; run it whenever som
 python3 autocode.py uninstall      # removes only what setup installed; your edits stay
 ```
 
-Python 3.8+ and nothing else. `setup` copies the 49 skills into each agent's skills folder,
+Python 3.8+ and nothing else. `setup` copies the 11 skills into each agent's skills folder,
 adds one managed block to its instructions file (`CLAUDE.md`, `AGENTS.md`, `SOUL.md`, …) so
 agents without hooks still get memory, full review and the pre-deploy secret scan, and keeps
 backups of anything it touched. `python3 autocode.py clients` lists the supported agents;
@@ -105,7 +105,7 @@ Tell OpenCode:
 Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/autocode/refs/heads/main/.opencode/INSTALL.md
 ```
 
-**Works on Claude Code, Codex, and OpenCode.** Same 49 skills, zero changes.
+**Works on Claude Code, Codex, and OpenCode.** Same 11 skills, zero changes.
 
 ### Hermes Agent
 
@@ -284,129 +284,29 @@ Before shipping, AutoCode runs that table, not "tests passed". A static build sh
 if you have no GitHub account it walks you through signing up, and you approve the login in your own browser.
 The whole journey, as the rules AutoCode follows, is [`methodology/see-it-ship-it.md`](methodology/see-it-ship-it.md).
 
-## 🧠 49 Skills
+## 🧠 11 Skills, 7 Stages
 
-All automatic. You never activate them.
+All automatic. You never activate them. Every skill is one stage of the journey or a
+support that runs across it; the journey itself is written down in
+[`methodology/see-it-ship-it.md`](methodology/see-it-ship-it.md).
 
-<details>
-<summary><b>🔍 Product study (1) — new in v6</b></summary>
+| Stage | Skill | What it does |
+|---|---|---|
+| S1 see | `see` | Understands what you want from how you said it; your level; the size of the job; locks what you confirmed; asks at most one question that is yours |
+| S2 study | `product-study` | "Like X" → public-source blueprint with evidence → MVP cut → verify runner |
+| S3 plan | `plan` | Steps that each end in something you can click; minutes, not hours; core first; risks and costs flagged |
+| S4 build | `build` | Simplest stack that works, one feature at a time, rules kept apart from the look, checkpoint before anything risky, first-session environment |
+| S5 verify | `verify` | Silent checks after every feature, full review before save and deploy, the acceptance table — check / expected / actual / match — local and again on the live URL |
+| S6 ship | `ship` | Secret scan, then a public URL: GitHub Pages at no cost for static builds, a server only when needed; domain if you want one |
+| S7 hand-back | `hand-back` | Progress lines, real milestones credited to you, session summary, and the final hand-back: URL, table, what to try, what was learned vs decided |
+| across | `judge` | When AutoCode acts alone and when it stops and asks — iLang v5.0: perception sets 11 dimensions, the frozen `f_v5` sets the mode, you see one plain line |
+| across | `fix` | Observe → reason → smallest fix → verify → explain in your words |
+| across | `memory` | Loads what we know at every start, learns patterns, preferences and mistakes without asking, saves on stop — never secrets |
+| across | `security` | Secrets never in code or chat; scan before every deploy |
 
-| Skill | What it does |
-|-------|-------------|
-| Product Study | "Like X" → public-source blueprint with evidence → MVP cut → build scope |
-</details>
-
-<details>
-<summary><b>📋 Understanding (5)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Intent Detection | Knows what you want instantly |
-| Smart Questions | Max 2, never technical |
-| Scope Detection | Small task or big project |
-| Communication Adapt | Matches your language and level |
-| Requirement Lock | Stays on track |
-</details>
-
-<details>
-<summary><b>📐 Planning (6)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Task Breakdown | Big → small steps, 2-5 min each |
-| Priority | Core first, polish last |
-| Time Estimate | "About 20 minutes" |
-| Risk Warning | Warns before problems happen |
-| Best Choice | Auto-picks fastest/cheapest/most stable tech |
-| Decision Translation | Explains in money/speed/stability |
-</details>
-
-<details>
-<summary><b>🔨 Building (3)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Scaffold | Project foundation |
-| Feature Build | One by one |
-| UI Build | All devices |
-</details>
-
-<details>
-<summary><b>✅ Quality (4)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Auto Check | Reviews code logic silently |
-| Security | Blocks attacks, encrypts data |
-| Performance | Fast + cheap to run |
-| Multi-Device | Phone/tablet/desktop |
-</details>
-
-<details>
-<summary><b>🔧 Debugging (5)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Observe | Investigates on its own |
-| Reason | Finds root cause |
-| Fix & Verify | Fixes + confirms |
-| Explain | Tells you in your words |
-| Fix Guide | Stuck? Guides you to screenshot and upload to [claude.ai](https://claude.ai) |
-</details>
-
-<details>
-<summary><b>💾 Saving (3) — ⭐ Soul of AutoCode</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| ⭐ **Full Review** | **Every save: reviews entire project from beginning. You watch and learn.** |
-| Milestone | Celebrates achievements |
-| Rollback | One-click undo |
-</details>
-
-<details>
-<summary><b>🚀 Deployment (4)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Local Run | Your server, your URL |
-| Global Deploy | CDN, fast everywhere |
-| Edge Deploy | Free tier |
-| File Transfer | Server-to-server |
-</details>
-
-<details>
-<summary><b>📊 Progress (5)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Live Progress | "✅ 60% (3/5)" |
-| Efficiency Compare | "Outsourcing = $5K. You = 25 min." |
-| Celebration | "🎉 Done!" |
-| Daily Summary | Today + tomorrow |
-| Roadmap | Multi-day plan |
-</details>
-
-<details>
-<summary><b>🎓 Learning (3)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Preferences | Remembers your style |
-| Patterns | Learns what you build |
-| Mistakes | Never repeats errors |
-</details>
-
-<details>
-<summary><b>⚙️ Engine (2)</b></summary>
-
-| Skill | What it does |
-|-------|-------------|
-| Compression | iLang v5.0 protocol, structured internal planning |
-| Memory | Remembers across sessions |
-</details>
-
----
+v6.1 had 49 skills; 44 of them were one paragraph each. v6.2 folds them into the
+eleven above (the mapping is in the methodology file). `setup` retires the old folders
+on upgrade and keeps any you edited.
 
 ## 🎯 Precision
 
