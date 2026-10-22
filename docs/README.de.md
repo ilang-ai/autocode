@@ -19,6 +19,13 @@
 
 ## 🚀 Installation
 
+**Jeder Agent, ein Befehl:**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 Server benötigt → [dev.ilang.ai](https://dev.ilang.ai) ($300 Gratis-Guthaben)
 
-48 professionelle Skills arbeiten automatisch. Keine technischen Fragen. Maximal 2 einfache Fragen. Sitzungsübergreifendes Gedächtnis. In deiner Sprache.
+11 Skills, 7 Stufen: sehen → studieren → planen → bauen → prüfen → veröffentlichen → übergeben. Keine technischen Fragen. Maximal 2 einfache Fragen. Sitzungsübergreifendes Gedächtnis. In deiner Sprache.
 
-**3 Plattformen: Claude Code · Codex · OpenCode**
+**Jeder SKILL.md-kompatible Agent: Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · Kostenlos · Für immer**
 

@@ -1,7 +1,7 @@
 ---
 name: security
 description: Auto-apply security basics and block deploys that would leak secrets. Never ask the user about security choices — just do it, and run a real secret scan before going live.
-version: 6.2.1
+version: 6.2.2
 ---
 
 [PROTOCOL:iLang|v=5.0|layer=declaration]

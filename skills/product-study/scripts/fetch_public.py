@@ -41,7 +41,7 @@ import urllib.request
 import urllib.robotparser
 from html.parser import HTMLParser
 
-VERSION = "6.2.1"
+VERSION = "6.2.2"
 USER_AGENT = "autocode-product-study/%s (+https://github.com/ilang-ai/autocode; public pages only)" % VERSION
 DEFAULT_ROOT = os.path.join(".autocode", "study")
 MAX_BYTES = 3 * 1024 * 1024

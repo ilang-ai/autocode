@@ -1,7 +1,7 @@
 ---
 name: hand-back
 description: S7 of see-it-ship-it: what the person hears. Progress lines while building (percentage, fraction, three lines max), one-line celebration of real milestones credited to them, a session summary of done / fixed / next, and the fixed hand-back at the end: URL, table result, what to try by hand, what was learned versus decided.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # hand-back — S7: what the person hears, from the first step to the URL

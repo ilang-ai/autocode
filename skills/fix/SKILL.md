@@ -1,7 +1,7 @@
 ---
 name: fix
 description: Cross-cutting: when something breaks. Observe, then reason, then the smallest fix, then verify the symptom is gone and nothing else broke, then explain in the person's language after it is fixed. Never show a raw error to a beginner; never blame them.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # fix — observe → reason → smallest fix → verify → explain

@@ -1,7 +1,7 @@
 ---
 name: see
 description: S1 of see-it-ship-it: understand what the person wants from the way they said it. Classify intent silently, detect their level from the first messages, size the task, lock what they confirmed, and ask at most one question that is theirs to answer.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # see — S1: understand what they want, in their words

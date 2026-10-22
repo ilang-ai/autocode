@@ -19,6 +19,13 @@
 
 ## 🚀 इंस्टॉलेशन
 
+**कोई भी एजेंट, एक कमांड:**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 सर्वर चाहिए → [dev.ilang.ai](https://dev.ilang.ai) ($300 फ्री क्रेडिट)
 
-48 प्रोफेशनल स्किल्स ऑटोमैटिक। कोई टेक्निकल सवाल नहीं। अधिकतम 2 सरल सवाल। सेशन के बीच मेमोरी। आपकी भाषा में।
+11 स्किल्स, 7 चरण: देखें → अध्ययन करें → योजना बनाएँ → बनाएँ → जाँचें → प्रकाशित करें → सौंपें। कोई टेक्निकल सवाल नहीं। अधिकतम 2 सरल सवाल। सेशन के बीच मेमोरी। आपकी भाषा में।
 
-**3 प्लेटफॉर्म: Claude Code · Codex · OpenCode**
+**SKILL.md सपोर्ट करने वाला कोई भी एजेंट: Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · फ्री · हमेशा के लिए**
 
