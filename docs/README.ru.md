@@ -19,6 +19,13 @@
 
 ## 🚀 Установка
 
+**Любой агент, одна команда:**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 Нужен сервер → [dev.ilang.ai](https://dev.ilang.ai) ($300 бесплатного кредита)
 
-48 профессиональных навыков работают автоматически. Никаких технических вопросов. Максимум 2 простых вопроса. Память между сессиями. На вашем языке.
+11 навыков, 7 этапов: увидеть → изучить → спланировать → собрать → проверить → опубликовать → передать. Никаких технических вопросов. Максимум 2 простых вопроса. Память между сессиями. На вашем языке.
 
-**3 платформы: Claude Code · Codex · OpenCode**
+**Любой агент с поддержкой SKILL.md: Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · Бесплатно · Навсегда**
 

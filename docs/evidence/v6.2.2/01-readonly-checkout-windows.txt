@@ -1,0 +1,108 @@
+AutoCode 6.2.2 evidence: uninstall on a checkout whose directories carry the read-only attribute
+Machine: author's Windows 11 workstation, Python 3.13.15, checkout under a synced folder (Google Drive for desktop)
+Date: 2026-10-21
+
+==============================================================================
+BEFORE (6.2.1 as released on main, commit 18416ad)
+==============================================================================
+# Before the fix (6.2.1 as released), this machine: Windows 11, Python 3.13.15
+# The checkout lives under a synced folder; its directories carry the read-only attribute:
+$ attrib <dir>   one directory per call
+  skills/build  R               C:\Users\easts\.claude\work\brand-ilang-2026-09-22\autocode\skills\build   (st_mode 0o40555)
+  skills/see    R               C:\Users\easts\.claude\work\brand-ilang-2026-09-22\autocode\skills\see   (st_mode 0o40555)
+  skills        R               C:\Users\easts\.claude\work\brand-ilang-2026-09-22\autocode\skills   (st_mode 0o40555)
+  .             R               C:\Users\easts\.claude\work\brand-ilang-2026-09-22\autocode   (st_mode 0o40555)
+
+$ python autocode.py --home <fake home> --platform win32 setup --client codex --yes   (3 rounds, then uninstall)
+  round 1:     os.rmdir(path)
+  round 1:     ~~~~~~~~^^^^^^
+  round 1: PermissionError: [WinError 5] Access denied: 'C:\\Users\\easts\\AppData\\Local\\Temp\\autocode-evidence-1-22400\\.codex\\skills\\build'
+  round 2:     os.rmdir(path)
+  round 2:     ~~~~~~~~^^^^^^
+  round 2: PermissionError: [WinError 5] Access denied: 'C:\\Users\\easts\\AppData\\Local\\Temp\\autocode-evidence-2-22400\\.codex\\skills\\build'
+  round 3:     os.rmdir(path)
+  round 3:     ~~~~~~~~^^^^^^
+  round 3: PermissionError: [WinError 5] Access denied: 'C:\\Users\\easts\\AppData\\Local\\Temp\\autocode-evidence-3-22400\\.codex\\skills\\build'
+
+$ python scripts/test_quality.py   (tail)
+    File "C:\Program Files\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+      os.rmdir(path)
+      ~~~~~~~~^^^^^^
+  PermissionError: [WinError 5] Access denied: 'C:\\Users\\easts\\AppData\\Local\\Temp\\autocode-gate-w09prbao\\.codex\\skills\\build'
+
+# Root cause: shutil.copytree copies the directory attribute (copystat) into the agent's skills folder;
+# os.rmdir on a read-only directory fails on Windows with WinError 5. CI runners' checkouts carry no such attribute.
+
+==============================================================================
+AFTER (this branch: remove_tree + make_dirs_writable, gate gains the read-only scenario on all three platforms)
+==============================================================================
+$ python scripts/test_quality.py
+ok   skills folder has exactly 11 skills (7 stages + 4 cross-cutting)
+ok   every skill has frontmatter with matching name, description, version
+ok   no __pycache__ or .pyc tracked in git
+ok   one version everywhere (6.2.2)
+ok   skill count 11 everywhere
+ok   CITATION.cff and .zenodo.json carry the release version
+ok   agents.json ids unique
+ok   agents.json entries have id/display_name/verified
+ok   agents.json uses only known placeholders
+ok   persona uses only known placeholders
+ok   persona names product-study and the memory file
+ok   all python compiles (8 files)
+ok   all shell scripts parse (4 files; skipped on Windows)
+ok   product-study selftest passes
+ok   methodology/see-it-ship-it.md declares the objective and the 8 genes
+ok   acceptance_run.py (S5-verify) selftest passes
+ok   judge: f_v5 reference function reproduces the canonical cases
+ok   every skill declares the iLang v5.0 protocol line
+ok   no skill uses the unregistered ::EXAMPLE block (use ::SAY{@A→@B}{...})
+ok   examples/dino blueprint passes the product-study gate
+ok   examples/dino ships a rules block and a checks file
+ok   examples/dino acceptance: every machine check matches (node)
+ok   [linux] dry-run plans codex and writes nothing
+ok   [linux] setup applies
+ok   [linux] doctor healthy after setup
+ok   [linux] second setup is a no-op
+ok   [linux] user's own rules kept above the block
+ok   [linux] doctor reports skills left over from an older version
+ok   [linux] setup retires the untouched old skill and leaves the edited one
+ok   [linux] retired skill is forgotten, edited one still recorded
+ok   [linux] doctor notes (not fails) the user-edited leftover
+ok   [linux] doctor flags an edited skill
+ok   [linux] setup treats the edited skill as a conflict, not an overwrite
+ok   [linux] --force overwrites and backs up the edited skill
+ok   [linux] uninstall removes our skills, keeps the edited one, strips the block
+ok   [linux] read-only skill folders (checkout under a synced folder) are removed too
+ok   [darwin] dry-run plans codex and writes nothing
+ok   [darwin] setup applies
+ok   [darwin] doctor healthy after setup
+ok   [darwin] second setup is a no-op
+ok   [darwin] user's own rules kept above the block
+ok   [darwin] doctor reports skills left over from an older version
+ok   [darwin] setup retires the untouched old skill and leaves the edited one
+ok   [darwin] retired skill is forgotten, edited one still recorded
+ok   [darwin] doctor notes (not fails) the user-edited leftover
+ok   [darwin] doctor flags an edited skill
+ok   [darwin] setup treats the edited skill as a conflict, not an overwrite
+ok   [darwin] --force overwrites and backs up the edited skill
+ok   [darwin] uninstall removes our skills, keeps the edited one, strips the block
+ok   [darwin] read-only skill folders (checkout under a synced folder) are removed too
+ok   [win32] dry-run plans codex and writes nothing
+ok   [win32] setup applies
+ok   [win32] doctor healthy after setup
+ok   [win32] second setup is a no-op
+ok   [win32] user's own rules kept above the block
+ok   [win32] doctor reports skills left over from an older version
+ok   [win32] setup retires the untouched old skill and leaves the edited one
+ok   [win32] retired skill is forgotten, edited one still recorded
+ok   [win32] doctor notes (not fails) the user-edited leftover
+ok   [win32] doctor flags an edited skill
+ok   [win32] setup treats the edited skill as a conflict, not an overwrite
+ok   [win32] --force overwrites and backs up the edited skill
+ok   [win32] uninstall removes our skills, keeps the edited one, strips the block
+ok   [win32] read-only skill folders (checkout under a synced folder) are removed too
+ok   [win32] xdg_config resolves under AppData/Roaming
+0 failure(s)
+
+Reading: 62 checks of 6.2.1 plus 3 new ones ([linux]/[darwin]/[win32] read-only skill folders are removed too), 0 failures,
+on the same machine where 6.2.1 crashed in cmd_uninstall (shutil.rmtree -> os.rmdir -> WinError 5).

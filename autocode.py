@@ -36,9 +36,10 @@ import io
 import json
 import os
 import shutil
+import stat
 import sys
 
-VERSION = "6.2.1"
+VERSION = "6.2.2"
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENTS_FILE = os.path.join(HERE, "agents.json")
 SKILLS_SRC = os.path.join(HERE, "skills")
@@ -116,6 +117,32 @@ def sha_tree(path):
             h.update(sha_file(full).encode("ascii"))
             h.update(b"\n")
     return h.hexdigest()
+
+
+def make_writable(path):
+    """Clear a read-only bit. On Windows this clears the read-only attribute; on POSIX it adds owner write."""
+    try:
+        os.chmod(path, os.stat(path).st_mode | stat.S_IWUSR)
+    except OSError:
+        pass
+
+
+def make_dirs_writable(path):
+    """After copytree: a checkout that lives in a synced or read-only folder carries the read-only
+    attribute on its directories, and copytree (copystat) would carry it into the agent's skills
+    folder; a read-only directory cannot be removed on Windows (WinError 5). Files keep their bits."""
+    for root, dirs, _ in os.walk(path):
+        make_writable(root)
+
+
+def remove_tree(path):
+    """shutil.rmtree for a skill folder whose directories may be read-only (see make_dirs_writable):
+    every directory and file is made writable first, top down, so the removal cannot stop halfway."""
+    for root, dirs, files in os.walk(path):
+        make_writable(root)
+        for name in files:
+            make_writable(os.path.join(root, name))
+    shutil.rmtree(path)
 
 
 def source_skills():
@@ -265,6 +292,7 @@ def apply_plan(agent, p, steps, ctx, manifest, force):
                     os.makedirs(backup_dir, exist_ok=True)
                     shutil.move(dest, os.path.join(backup_dir, "%s.%s" % (name, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))))
                 shutil.copytree(os.path.join(SKILLS_SRC, name), dest, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+                make_dirs_writable(dest)
                 rec["skills"][name] = {"path": dest, "sha": src_sha}
             elif act == "keep":
                 rec["skills"][name] = {"path": dest, "sha": src_sha}
@@ -481,10 +509,13 @@ def cmd_uninstall(args, ctx, agents):
             return 1
     for act, cid, path in todo:
         if act == "remove-skill":
-            shutil.rmtree(path)
+            remove_tree(path)
             parent = os.path.dirname(path)
             if os.path.isdir(parent) and not os.listdir(parent):
-                os.rmdir(parent)  # an empty skills folder we filled is not worth leaving behind
+                try:
+                    os.rmdir(parent)  # an empty skills folder we filled is not worth leaving behind
+                except OSError:
+                    pass  # not ours to force; an empty folder is harmless
         elif act == "remove-block":
             backup(ctx, cid, path)
             with open(path, encoding="utf-8", errors="replace") as f:

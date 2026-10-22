@@ -1,7 +1,7 @@
 ---
 name: plan
 description: S3 of see-it-ship-it: cut the work into steps that each end in something the person can click, with minutes not hours, core before polish, risks and costs flagged, free alternatives first. Internal planning is written in iLang; the person never sees it.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # plan — S3: cut it into steps they can see

@@ -304,7 +304,7 @@ def cmd_check(args):
     check("MVP objects listed and <= %d" % MAX_OBJECTS, n_obj is not None and 1 <= n_obj <= MAX_OBJECTS, "found %s" % n_obj)
     check("MVP screens listed and <= %d" % MAX_SCREENS, n_scr is not None and 1 <= n_scr <= MAX_SCREENS, "found %s" % n_scr)
     bo = mtxt.split("**Build order", 1)[1] if "**Build order" in mtxt else ""
-    bo = re.split(r"\n\*\*", bo, 1)[0]  # the numbered steps between the Build order label and the next bold label
+    bo = re.split(r"\n\*\*", bo, maxsplit=1)[0]  # the numbered steps between the Build order label and the next bold label
     steps = re.findall(r"^\s*\d+\.\s+\S", bo, re.M)
     check("MVP build order has >= 3 steps", len(steps) >= 3, "found %d" % len(steps))
     acc = mtxt.split("**Acceptance", 1)[1] if "**Acceptance" in mtxt else ""

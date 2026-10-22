@@ -19,6 +19,13 @@
 
 ## 🚀 インストール
 
+**どんなエージェントでも、1 コマンド：**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 サーバーが必要です → [dev.ilang.ai](https://dev.ilang.ai)（新規$300クレジット付き）
 
-48のプロスキルが自動で動きます。技術的な質問はしません。最大2つの簡単な質問だけ。セッション間の記憶。あなたの言語で対応します。
+11 のスキル、7 つの段階：見る → 調べる → 計画 → 作る → 検証 → 公開 → 引き渡し。技術的な質問はしません。最大 2 つの簡単な質問だけ。セッション間の記憶。あなたの言語で対応します。
 
-**3プラットフォーム対応：Claude Code · Codex · OpenCode**
+**SKILL.md 対応のあらゆるエージェント：Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · 無料 · 永久**
 

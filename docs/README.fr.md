@@ -19,6 +19,13 @@
 
 ## 🚀 Installation
 
+**N'importe quel agent, une seule commande :**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 Serveur nécessaire → [dev.ilang.ai](https://dev.ilang.ai) (300$ de crédit gratuit)
 
-48 compétences professionnelles automatiques. Aucune question technique. Maximum 2 questions simples. Mémoire entre sessions. Dans votre langue.
+11 compétences, 7 étapes : voir → étudier → planifier → construire → vérifier → publier → remettre. Aucune question technique. Maximum 2 questions simples. Mémoire entre sessions. Dans votre langue.
 
-**3 plateformes : Claude Code · Codex · OpenCode**
+**Tout agent compatible SKILL.md : Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · Gratuit · Pour toujours**
 

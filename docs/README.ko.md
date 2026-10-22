@@ -19,6 +19,13 @@
 
 ## 🚀 설치
 
+**어떤 에이전트든 명령 한 줄:**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 서버가 필요합니다 → [dev.ilang.ai](https://dev.ilang.ai) (신규 $300 크레딧)
 
-48개 전문 스킬 자동 작동. 기술 질문 없음. 최대 2개 간단한 질문. 세션 간 기억. 모든 언어 지원.
+11개 스킬, 7단계: 보기 → 조사 → 계획 → 제작 → 검증 → 배포 → 인계. 기술 질문 없음. 최대 2개 간단한 질문. 세션 간 기억. 모든 언어 지원.
 
-**3개 플랫폼 지원: Claude Code · Codex · OpenCode**
+**SKILL.md를 지원하는 모든 에이전트: Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · 무료 · 영구**
 

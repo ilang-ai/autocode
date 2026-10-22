@@ -19,6 +19,13 @@
 
 ## 🚀 التثبيت
 
+**أي وكيل، أمر واحد:**
+
+```bash
+git clone https://github.com/ilang-ai/autocode.git && cd autocode
+python3 autocode.py setup
+```
+
 ### Claude Code
 
 ```bash
@@ -48,9 +55,9 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ilang-ai/au
 
 تحتاج خادم → [dev.ilang.ai](https://dev.ilang.ai) (رصيد مجاني $300)
 
-48 مهارة احترافية تعمل تلقائياً. بدون أسئلة تقنية. سؤالان بسيطان كحد أقصى. ذاكرة بين الجلسات. بلغتك.
+11 مهارة، 7 مراحل: انظر ← ادرس ← خطّط ← ابنِ ← تحقّق ← انشر ← سلّم. بدون أسئلة تقنية. سؤالان بسيطان كحد أقصى. ذاكرة بين الجلسات. بلغتك.
 
-**3 منصات: Claude Code · Codex · OpenCode**
+**أي وكيل يدعم SKILL.md: Claude Code · Codex · Hermes · OpenCode · Gemini CLI · Cursor …**
 
 **MIT · مجاني · للأبد**
 

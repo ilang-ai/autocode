@@ -1,7 +1,7 @@
 ---
 name: ship
 description: S6 of see-it-ship-it: put it at a public URL. Secret scan first; static builds go to GitHub Pages at no cost (sign-up guide, device-code login, one question: it will be public); a server only when a backend is needed, cost asked once; then open the URL, rerun the acceptance on the live page, bind a domain if they want one.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # ship — S6: the end is a URL

@@ -1,7 +1,7 @@
 ---
 name: judge
 description: The judgment layer: when AutoCode acts on its own and when it stops and asks, and how it speaks about decisions and money. iLang v5.0: perception sets the 11 dimensions, the frozen reference function f_v5 sets the mode, the user sees one plain line. Runs before every consequential action.
-version: 6.2.1
+version: 6.2.2
 ---
 
 # judge — cross-cutting: when to act, when to ask, how to say it

@@ -13,6 +13,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -228,11 +229,17 @@ for platform in ("linux", "darwin", "win32"):
         check("[%s] --force overwrites and backs up the edited skill" % platform, rc == 0 and "my tweak" not in open(edited, encoding="utf-8").read() and os.path.isdir(os.path.join(tmp, ".autocode", "backups", "codex", "skills")), out[-300:])
         with open(edited, "a", encoding="utf-8") as f:
             f.write("\nmy tweak again\n")
+        # a checkout that lives in a synced or read-only folder carries the read-only attribute on its
+        # directories and copytree carries it into the install; on Windows os.rmdir then fails (WinError 5)
+        for ro in ("build", "see"):
+            os.chmod(os.path.join(tmp, ".codex", "skills", ro), stat.S_IREAD | stat.S_IEXEC)
         rc, out = run(*base, "uninstall", "--yes")
         check("[%s] uninstall removes our skills, keeps the edited one, strips the block" % platform,
               rc == 0 and not os.path.exists(os.path.join(tmp, ".codex", "skills", "product-study")) and os.path.exists(edited)
               and ac.BEGIN not in open(os.path.join(tmp, ".codex", "AGENTS.md"), encoding="utf-8").read()
               and "keep this line" in open(os.path.join(tmp, ".codex", "AGENTS.md"), encoding="utf-8").read(), out[-300:])
+        check("[%s] read-only skill folders (checkout under a synced folder) are removed too" % platform,
+              not os.path.exists(os.path.join(tmp, ".codex", "skills", "build")) and not os.path.exists(os.path.join(tmp, ".codex", "skills", "see")), out[-300:])
         if platform == "win32":
             ctx = ac.Context(tmp, "win32")
             oc = [a for a in agents if a["id"] == "opencode"][0]
